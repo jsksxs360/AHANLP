@@ -1,6 +1,6 @@
 package me.xiaosheng.chnlp.summary;
 
-import me.xiaosheng.chnlp.seg.POSSelector;
+import me.xiaosheng.chnlp.seg.POSFilter;
 import me.xiaosheng.chnlp.seg.Segment;
 
 import java.util.*;
@@ -31,11 +31,8 @@ public class TextRankKeyword {
      * @return 词语列表
      */
     private static List<String> getSegResult(String content) {
-        POSSelector filter = new POSSelector();
-        // 关键词性
-        filter.addKeyPOS(Arrays.asList("n", "ns", "nr", "nt", "nz", "v", "vd", "vn", "a", "ad", "an", "d"));
         List<Term> segResult = Segment.StandardSegment(content, true);
-        filter.filterKeyPOS(segResult);
+        POSFilter.selectRealWords(segResult);
         return Segment.getWordList(segResult);
     }
 

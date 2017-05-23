@@ -7,7 +7,6 @@ import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLWord;
 import com.hankcs.hanlp.seg.common.Term;
 
 import me.xiaosheng.chnlp.AHANLP;
-import me.xiaosheng.chnlp.parser.DependencyParser;
 
 public class Parser {
 

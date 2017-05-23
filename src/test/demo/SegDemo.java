@@ -6,7 +6,7 @@ import java.util.List;
 import com.hankcs.hanlp.seg.common.Term;
 
 import me.xiaosheng.chnlp.AHANLP;
-import me.xiaosheng.chnlp.seg.POSSelector;
+import me.xiaosheng.chnlp.seg.POSFilter;
 
 public class SegDemo {
 
@@ -29,10 +29,9 @@ public class SegDemo {
         List<String> nlpWordList = AHANLP.getWordList(nlpSegResult);
         System.out.println("NLP分词(去停用词):\n" + nlpWordList);
         // 标准分词(去停用词，保留实词)
-        POSSelector selector = new POSSelector();
-        selector.addKeyPOS(Arrays.asList("n", "ns", "nr", "nt", "nz", "v", "vd", "vn", "a", "ad", "an", "d"));
         stdSegResult = AHANLP.StandardSegment(content, true);
-        selector.filterKeyPOS(stdSegResult);
+        //POSFilter.selectRealWords(stdSegResult);
+        POSFilter.selectPOS(stdSegResult, Arrays.asList("n", "ns", "nr", "nt", "nz", "v", "vd", "vn", "a", "ad", "an", "d"));
         System.out.println("标准分词(去停用词，保留实词):\n" + AHANLP.getWordList(stdSegResult));
         // 分句
         System.out.println("切分句子:");

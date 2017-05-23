@@ -1,17 +1,18 @@
 package me.xiaosheng.chnlp;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 public class Config {
 
-    private static String configFilePath = "zhnlp.properties";
+    private static String configFilePath = "ahanlp.properties";
     private static Properties props = new Properties();
     static {
         try {
-            props.load(new BufferedInputStream(new FileInputStream(configFilePath)));
+        	ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        	if (loader == null) loader = Config.class.getClassLoader();
+            props.load(new InputStreamReader(loader.getResourceAsStream(configFilePath), "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
