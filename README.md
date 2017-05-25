@@ -20,6 +20,7 @@
   - Word2Vec 句子相似度
   - LDA 主题预测
 - 附加功能
+  - 简繁转换
   - WordCloud 绘制词云
 
 ## 下载与配置
@@ -218,7 +219,7 @@ s1 | s3 : 0.3648093
 */
 ```
 
-**wordSimilarity** 和 **sentenceSimilarity** 分别是计算词语和句子相似度的函数，计算过程都使用了 Word2Vec 模型提供的词向量，使用前需要在 `ahanlp.properties` 文件中配置好 Word2Vec 模型路径。词语相似度直接通过计算词向量余弦值得到，句子相似度求取方式可以参见 [Word2Vec/issues1](https://github.com/jsksxs360/Word2Vec/issues/1)。
+**wordSimilarity** 和 **sentenceSimilarity** 分别是计算词语和句子相似度的函数，计算过程都使用了 Word2Vec 模型提供的词向量，使用前需要在 `ahanlp.properties` 文件中配置好 Word2Vec 模型路径。词语相似度直接通过计算词向量余弦值得到，句子相似度求取方式可以参见 [Word2Vec/issues1](https://github.com/jsksxs360/Word2Vec/issues/1)。如果想自己训练 Word2Vec 模型，可以参考[训练 Google 版模型](https://github.com/jsksxs360/Word2Vec#user-content-2-训练-google-版模型)。
 
 注：**sentenceSimilarity** 使用标准分词对句子进行分词，并过滤停用词。
 
@@ -243,7 +244,22 @@ int topicNum810 = AHANLP.topicInference("data/model/testLDA.model", "data/mini/�
 System.out.println("军事_810.txt 最可能的主题号为: " + topicNum810);
 ```
 
-### 9. WordCloud 绘制词云
+### 9. 简繁转换
+
+```java
+String tc = AHANLP.convertSC2TC("用笔记本电脑写程序");
+System.out.println(tc);
+String sc = AHANLP.convertTC2SC("「以後等妳當上皇后，就能買士多啤梨慶祝了」");
+System.out.println(sc);
+/*
+用筆記本電腦寫程序
+“以后等你当上皇后，就能买草莓庆祝了”
+*/
+```
+
+简繁转换是对 HanLP 中 `convertToTraditionalChinese` 和 `convertToSimplifiedChinese` 方法的包装。能够识别简繁分歧词，比如 `打印机=印表機`；以及许多简繁转换工具不能区分的字，例如“以后”、“皇后”中的两个“后”字。
+
+### 10. WordCloud 绘制词云
 
 ```java
 String document = "我国第二艘航空母舰下水仪式26日上午在中国船舶重工集团公司大连造船厂举行。" + "中共中央政治局委员、中央军委副主席范长龙出席仪式并致辞。9时许，仪式在雄壮的国歌声中开始。"

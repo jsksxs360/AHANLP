@@ -3,6 +3,7 @@ package me.xiaosheng.chnlp;
 import java.io.IOException;
 import java.util.List;
 
+import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLSentence;
 import com.hankcs.hanlp.seg.common.Term;
 
@@ -202,5 +203,21 @@ public class AHANLP {
      */
     public static CoNLLSentence DependencyParse(String sentence, boolean englishTag) {
     	return DependencyParser.parse(sentence, englishTag);
+    }
+    /**
+     * 简体中文转繁体
+     * @param simplifiedChinese 简体中文
+     * @return 繁体中文
+     */
+    public static String convertSC2TC(String simplifiedChinese) {
+    	return HanLP.convertToTraditionalChinese(simplifiedChinese);
+    }
+    /**
+     * 繁体中文转简体
+     * @param TraditionalChinese 繁体中文
+     * @return 简体中文
+     */
+    public static String convertTC2SC(String TraditionalChinese) {
+    	return HanLP.convertToSimplifiedChinese(TraditionalChinese);
     }
 }
