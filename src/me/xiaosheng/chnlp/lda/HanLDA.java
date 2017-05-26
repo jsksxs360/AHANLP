@@ -16,7 +16,7 @@ public class HanLDA {
      */
     public static void train(String trainFolderPath, int trainTopicNum, String saveModelFilePath, boolean printLDAModel) throws IOException {
         //载入语料，预处理
-    	System.out.println("载入语料  预处理中...");
+        System.out.println("载入语料  预处理中...");
         Corpus corpus = Corpus.load(trainFolderPath);
         System.out.println("预处理完毕！");
         //创建LDA采样器
@@ -30,8 +30,8 @@ public class HanLDA {
         //存储产生的LDA模型
         LDAModel.saveModelFile(saveModelFilePath, phi, corpus.getVocabulary());
         if (printLDAModel) { //展示产生的模型，每个主题展示出现概率最高的10个词汇
-        	    Map<String, Double>[] topicMap = LdaUtil.translate(phi, corpus.getVocabulary(), 10);
-        	    LdaUtil.explain(topicMap);
+            Map<String, Double>[] topicMap = LdaUtil.translate(phi, corpus.getVocabulary(), 10);
+            LdaUtil.explain(topicMap);
         }
         //存储LDA展示文件，每个主题展示出现概率最高的20个词汇
         LDAModel.saveLDAShowFile(saveModelFilePath + ".txt", phi, corpus.getVocabulary(), 20);
@@ -56,7 +56,7 @@ public class HanLDA {
             }
         }
         return tp;
-	}
+    }
     
     /**
      * 预测文档最可能的主题号
@@ -66,8 +66,8 @@ public class HanLDA {
      * @throws IOException
      */
     public static int inference(String modelFilePath, String documentFilePath) throws IOException {
-    	double[] result = inference(modelFilePath, documentFilePath, false);
-    	return getMaxProbTopic(result);
+        double[] result = inference(modelFilePath, documentFilePath, false);
+        return getMaxProbTopic(result);
     }
     
     /**
@@ -76,14 +76,14 @@ public class HanLDA {
      * @return
      */
     private static int getMaxProbTopic(double[] topicProb) {
-    	int index = -1;
-    	double max = Double.MIN_VALUE;
-    	for (int i = 0; i < topicProb.length; i++) {
-    		if (topicProb[i] > max) {
-    			max = topicProb[i];
-    			index = i;
-    		}
-    	}
-    	return index;
+        int index = -1;
+        double max = Double.MIN_VALUE;
+        for (int i = 0; i < topicProb.length; i++) {
+            if (topicProb[i] > max) {
+                max = topicProb[i];
+                index = i;
+            }
+        }
+        return index;
     }
 }

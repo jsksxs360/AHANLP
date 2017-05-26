@@ -192,7 +192,7 @@ public class AHANLP {
      * @return CONLL格式分析结果
      */
     public static CoNLLSentence DependencyParse(String sentence) {
-    	return DependencyParser.parse(sentence);
+        return DependencyParser.parse(sentence);
     }
     
     /**
@@ -202,7 +202,7 @@ public class AHANLP {
      * @return CONLL格式分析结果
      */
     public static CoNLLSentence DependencyParse(String sentence, boolean englishTag) {
-    	return DependencyParser.parse(sentence, englishTag);
+        return DependencyParser.parse(sentence, englishTag);
     }
     /**
      * 简体中文转繁体
@@ -210,7 +210,7 @@ public class AHANLP {
      * @return 繁体中文
      */
     public static String convertSC2TC(String simplifiedChinese) {
-    	return HanLP.convertToTraditionalChinese(simplifiedChinese);
+        return HanLP.convertToTraditionalChinese(simplifiedChinese);
     }
     /**
      * 繁体中文转简体
@@ -218,6 +218,6 @@ public class AHANLP {
      * @return 简体中文
      */
     public static String convertTC2SC(String TraditionalChinese) {
-    	return HanLP.convertToSimplifiedChinese(TraditionalChinese);
+        return HanLP.convertToSimplifiedChinese(TraditionalChinese);
     }
 }

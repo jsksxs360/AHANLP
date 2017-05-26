@@ -10,8 +10,8 @@ public class Config {
     private static Properties props = new Properties();
     static {
         try {
-        	ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        	if (loader == null) loader = Config.class.getClassLoader();
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            if (loader == null) loader = Config.class.getClassLoader();
             props.load(new InputStreamReader(loader.getResourceAsStream(configFilePath), "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();

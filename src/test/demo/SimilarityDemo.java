@@ -29,5 +29,4 @@ public class SimilarityDemo {
         System.out.println("s1 | s2 : " + Word2VecSimi.sentenceSimilarity(sen1words, sen2words));
         System.out.println("s1 | s3 : " + Word2VecSimi.sentenceSimilarity(sen1words, sen3words));
     }
-
 }
