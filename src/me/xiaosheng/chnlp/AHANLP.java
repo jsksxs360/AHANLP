@@ -10,6 +10,7 @@ import com.hankcs.hanlp.seg.common.Term;
 import me.xiaosheng.chnlp.distance.Word2VecSimi;
 import me.xiaosheng.chnlp.lda.HanLDA;
 import me.xiaosheng.chnlp.parser.DependencyParser;
+import me.xiaosheng.chnlp.seg.NERTerm;
 import me.xiaosheng.chnlp.seg.Segment;
 import me.xiaosheng.chnlp.summary.TextRankKeyword;
 import me.xiaosheng.chnlp.summary.TextRankSentence;
@@ -99,6 +100,15 @@ public class AHANLP {
      */
     public static List<List<String>> splitWordInSentences(List<String> sentenceList, boolean filterStopWord) {
         return Segment.splitWordInSentences(sentenceList, filterStopWord);
+    }
+    
+    /**
+     * 命名实体识别
+     * @param content 文本
+     * @return
+     */
+    public static List<NERTerm> NER(String content) {
+        return me.xiaosheng.chnlp.seg.NER.namedEntityRecognition(content);
     }
     
     /**

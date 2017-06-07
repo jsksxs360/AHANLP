@@ -2,7 +2,7 @@ package test.demo;
 
 import me.xiaosheng.chnlp.AHANLP;
 
-public class Convert {
+public class ConvertDemo {
 
     public static void main(String[] args) {
 	    //简繁转换

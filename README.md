@@ -10,6 +10,7 @@
   - NLP分词
   - 分句
   - 多句分词
+  - 命名实体识别
 - 句法分析类
   - 依存句法分析
 - 摘要类
@@ -130,7 +131,21 @@ for (int i = 0; i < senWordList.size(); i++)
 
 **AHANLP** 还支持同时对句子列表进行分词，分词器使用标准分词，返回每个句子中分出的词语列表（不包含词性）。
 
-### 4. 依存句法分析
+### 4. 命名实体识别
+
+```java
+String sentence = "2013年9月，习近平出席上合组织比什凯克峰会和二十国集团圣彼得堡峰会，"
+                + "并对哈萨克斯坦等中亚4国进行国事访问。在“一带一路”建设中，这次重大外交行程注定要被历史铭记。";
+List<NERTerm> NERResult = AHANLP.NER(sentence);
+System.out.println(NERResult);
+// [习近平/per, 上合组织/org, 比什凯克/loc, 二十国集团/org, 圣彼得堡/loc, 哈萨克斯坦/loc, 中亚/loc, 2013年9月/time]
+```
+
+命名实体识别负责识别出文本中的人名、地名、机构名，**AHANLP** 在这三类之外还添加了时间信息的识别。其中，人名、地名、机构名识别是在 HanLP 中 StandardTokenizer 的基础上进行的，而时间信息的识别则是在 HanLP 中 NLPTokenizer 的基础上进行的。
+
+注意：人名使用 per 标注、地名使用 loc 标注、机构名使用 org 标注、时间使用 time 标注。
+
+### 5. 依存句法分析
 
 ```java
 String sentence = "北京是中国的首都";
@@ -156,7 +171,7 @@ CoNLLSentence enDeps = AHANLP.DependencyParse(sentence, true);
 
 关于依存标签的详细说明，可以参见[《依存标签》](dep_tag.markdown)。
 
-### 5. TextRank 摘取关键词
+### 6. TextRank 摘取关键词
 
 ```java
 String document = "我国第二艘航空母舰下水仪式26日上午在中国船舶重工集团公司大连造船厂举行。航空母舰在拖曳牵引下缓缓移出船坞，停靠码头。目前，航空母舰主船体完成建造，动力、电力等主要系统设备安装到位。";
@@ -167,7 +182,7 @@ System.out.println(wordList);
 
 **extractKeyword** 函数通过第二个参数设定返回的关键词个数。内部通过 TextRank 算法计算每个词语的 Rank 值，并按 Rank 值降序排列，提取出前面的几个作为关键词。具体原理可以参见[《TextRank算法提取关键词和摘要》](http://xiaosheng.me/2017/04/08/article49/)。
 
-### 6. TextRank 摘取关键句和自动摘要
+### 7. TextRank 摘取关键句和自动摘要
 
 ```java
 String document = "我国第二艘航空母舰下水仪式26日上午在中国船舶重工集团公司大连造船厂举行。"
@@ -196,7 +211,7 @@ Summary:
 
 句子之间的相似程度（即 TextRank 算法中的权值）使用 Word2Vec 提供的函数计算，默认使用了维基百科中文语料训练出的模型，也可以使用自定义模型。
 
-### 7. 语义距离
+### 8. 语义距离
 
 ```java
 System.out.println("猫 | 狗 : " + AHANLP.wordSimilarity("猫", "狗"));
@@ -223,7 +238,7 @@ s1 | s3 : 0.3648093
 
 注：**sentenceSimilarity** 使用标准分词对句子进行分词，并过滤停用词。
 
-### 8. LDA 主题预测
+### 9. LDA 主题预测
 
 ```java
 int topicNum510 = AHANLP.topicInference("data/mini/军事_510.txt");
@@ -244,7 +259,7 @@ int topicNum810 = AHANLP.topicInference("data/model/testLDA.model", "data/mini/�
 System.out.println("军事_810.txt 最可能的主题号为: " + topicNum810);
 ```
 
-### 9. 简繁转换
+### 10. 简繁转换
 
 ```java
 String tc = AHANLP.convertSC2TC("用笔记本电脑写程序");
@@ -259,7 +274,7 @@ System.out.println(sc);
 
 简繁转换是对 HanLP 中 `convertToTraditionalChinese` 和 `convertToSimplifiedChinese` 方法的包装。能够识别简繁分歧词，比如 `打印机=印表機`；以及许多简繁转换工具不能区分的字，例如“以后”、“皇后”中的两个“后”字。
 
-### 10. WordCloud 绘制词云
+### 11. WordCloud 绘制词云
 
 ```java
 String document = "我国第二艘航空母舰下水仪式26日上午在中国船舶重工集团公司大连造船厂举行。" + "中共中央政治局委员、中央军委副主席范长龙出席仪式并致辞。9时许，仪式在雄壮的国歌声中开始。"
