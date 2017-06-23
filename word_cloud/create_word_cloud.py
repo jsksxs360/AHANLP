@@ -2,10 +2,9 @@
 
 import sys
 import getopt
-import matplotlib.pyplot as plt
 from wordcloud import WordCloud
-import codecs
 from numpy import integer
+from collections import Counter
 
 class WordCloud_CN:
 
@@ -20,9 +19,9 @@ class WordCloud_CN:
     def create_image(self):
         word_lines = open(self.word_list_file,encoding="utf8").readlines()
         word_list = [word.strip() for word in word_lines]
-        word_list_text = ' '.join(word_list)
+        word_counter = Counter(word_list)
         wordcloud = WordCloud(font_path=self.font_path, background_color=self.pic_back, width=self.pic_width, height=self.pic_height)
-        wordcloud = wordcloud.generate(word_list_text)
+        wordcloud = wordcloud.generate_from_frequencies(word_counter)
         image = wordcloud.to_image()
         image.save(self.pic_save_path)
 
@@ -31,12 +30,6 @@ def create_word_cloud(word_list_file, pic_width, pic_height, pic_back, pic_save_
     word_cloud.create_image()
 
 opts, args = getopt.getopt(sys.argv[1:], 'l:w:h:b:s:f:')
-word_list_file = ''
-pic_width = ''
-pic_height = ''
-pic_back = ''
-pic_save_path = ''
-font_path = ''
 for op, value in opts:
     if op == '-l':
         word_list_file = value

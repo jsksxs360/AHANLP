@@ -79,12 +79,6 @@ public class WordCloud {
         cmd.append("\"simhei.ttf\"");
         System.out.println(cmd.toString());
         Process pr = Runtime.getRuntime().exec(cmd.toString(), null, new File("word_cloud/"));
-        // BufferedReader in = new BufferedReader(new
-        // InputStreamReader(pr.getInputStream()));
-        // String line;
-        // while ((line = in.readLine()) != null)
-        // System.out.println(line);
-        // in.close();
         try {
             pr.waitFor();
         } catch (InterruptedException e) {
