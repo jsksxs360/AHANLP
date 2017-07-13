@@ -68,7 +68,7 @@ root=./
 
 **AHANLP** 几乎所有的功能都可以通过工具类 `AHANLP` 快捷调用。并且推荐用户始终通过工具类 AHANLP 调用，这样将来 AHANLP 升级后，用户无需修改调用代码。
 
-所有 Demo 都位于 [test.demo](https://github.com/jsksxs360/ZHNLP/tree/master/src/test/demo) 下，比文档覆盖了更多细节，强烈建议运行一遍。
+所有 Demo 都位于 [test.demo](https://github.com/jsksxs360/AHANLP/tree/master/src/test/demo) 下，比文档覆盖了更多细节，强烈建议运行一遍。
 
 ### 1. 分词
 
