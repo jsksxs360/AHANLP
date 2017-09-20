@@ -1,8 +1,11 @@
 package test.demo;
 
 import java.util.List;
+import java.util.Map;
 
 import me.xiaosheng.chnlp.AHANLP;
+import me.xiaosheng.chnlp.summary.TextRankKeyword;
+import me.xiaosheng.chnlp.summary.TextRankSentence;
 
 public class SummaryDemo {
 
@@ -25,5 +28,17 @@ public class SummaryDemo {
         // 提取摘要
         System.out.println("Summary: ");
         System.out.println(AHANLP.extractSummary(document, 50));
+        
+        // 打印所有词语的rank值
+        Map<String, Float> wordRanks = TextRankKeyword.getWordRanks(document);
+        System.out.println("\n词语-----rank值");
+        for (Map.Entry<String, Float> entry : wordRanks.entrySet())
+            System.out.println(entry.getKey() + "-----" + entry.getValue());
+        
+        // 打印所有句子的rank值
+        Map<String, Float> sentenceRanks = TextRankSentence.getSentenceRanks(document);
+        System.out.println("\n句子-----rank值");
+        for (Map.Entry<String, Float> entry : sentenceRanks.entrySet())
+            System.out.println(entry.getKey() + "-----" + entry.getValue());
     }
 }

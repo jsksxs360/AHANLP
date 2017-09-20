@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
@@ -46,6 +48,20 @@ public class TextRankSentence {
     private float[] weight_sum; // 句子和其他句子相关程度之和
     private float[] SenRank; // 迭代之后收敛的权重
 
+    private TextRankSentence(List<String> sentenceList) {
+        this.sentenceList = sentenceList;
+        senWordList = Segment.splitWordInSentences(sentenceList, true);
+        senNum = sentenceList.size();
+        weight = new float[senNum][senNum];
+        weight_sum = new float[senNum];
+        SenRank = new float[senNum];
+        top = new TreeMap<Float, Integer>(Collections.reverseOrder());
+        initParam();
+        calSenRanks();
+        for (int i = 0; i < senNum; ++i) // 按rank值排序
+            top.put(SenRank[i], i);
+    }
+    
     private TextRankSentence(String document) {
         sentenceList = Segment.splitSentence(document, "[，,。:：“”？?！!；;]");
         senWordList = Segment.splitWordInSentences(sentenceList, true);
@@ -112,6 +128,36 @@ public class TextRankSentence {
     }
 
     /**
+     * 获取所有句子的rank值
+     * @param document 文档
+     * @return
+     */
+    public static Map<String, Float> getSentenceRanks(String document) {
+        TextRankSentence trSen = new TextRankSentence(document);
+        Map<Float, Integer> values = trSen.top;
+        Map<String, Float> sentenceRanks = new HashMap<String, Float>();
+        for (Map.Entry<Float, Integer> entry : values.entrySet()) {
+            sentenceRanks.put(trSen.sentenceList.get(entry.getValue()), entry.getKey());
+        }
+        return sentenceRanks;
+    }
+    
+    /**
+     * 获取所有句子的rank值
+     * @param sentenceList 句子列表
+     * @return
+     */
+    public static Map<String, Float> getSentenceRanks(List<String> sentenceList) {
+        TextRankSentence trSen = new TextRankSentence(sentenceList);
+        Map<Float, Integer> values = trSen.top;
+        Map<String, Float> sentenceRanks = new HashMap<String, Float>();
+        for (Map.Entry<Float, Integer> entry : values.entrySet()) {
+            sentenceRanks.put(trSen.sentenceList.get(entry.getValue()), entry.getKey());
+        }
+        return sentenceRanks;
+    }
+    
+    /**
      * 提取关键句
      * @param document 文档
      * @param num 句子数目
@@ -119,6 +165,23 @@ public class TextRankSentence {
      */
     public static List<String> getTopSentenceList(String document, int num) {
         TextRankSentence trSen = new TextRankSentence(document);
+        List<String> resultList = new ArrayList<String>();
+        Collection<Integer> values = trSen.top.values();
+        num = Math.min(num, values.size());
+        Iterator<Integer> it = values.iterator();
+        for (int i = 0; i < num; ++i)
+            resultList.add(trSen.sentenceList.get(it.next()));
+        return resultList;
+    }
+    
+    /**
+     * 提取关键句
+     * @param sentenceList 句子列表
+     * @param num 句子数目
+     * @return
+     */
+    public static List<String> getTopSentenceList(List<String> sentenceList, int num) {
+        TextRankSentence trSen = new TextRankSentence(sentenceList);
         List<String> resultList = new ArrayList<String>();
         Collection<Integer> values = trSen.top.values();
         num = Math.min(num, values.size());
@@ -174,6 +237,30 @@ public class TextRankSentence {
         TextRankSentence trSen = new TextRankSentence(document);
         List<String> sentenceList = trSen.sentenceList;
         int avgSentenceLength = document.length() / sentenceList.size();
+        int size = maxLength / avgSentenceLength + 1;
+        List<String> resultList = new ArrayList<String>();
+        Collection<Integer> values = trSen.top.values();
+        size = Math.min(size, values.size());
+        Iterator<Integer> it = values.iterator();
+        for (int i = 0; i < size; ++i)
+            resultList.add(trSen.sentenceList.get(it.next()));
+        resultList = permutation(resultList, sentenceList);
+        resultList = pickSentences(resultList, maxLength);
+        return TextUtility.join("。", resultList);
+    }
+    
+    /**
+     * 提取摘要
+     * @param sentenceList 句子列表
+     * @param max_length 最大长度
+     * @return
+     */
+    public static String getSummary(List<String> sentenceList, int maxLength) {
+        TextRankSentence trSen = new TextRankSentence(sentenceList);
+        int documentLength = 0;
+        for (String sentence : sentenceList)
+            documentLength += sentence.length();
+        int avgSentenceLength = documentLength / sentenceList.size();
         int size = maxLength / avgSentenceLength + 1;
         List<String> resultList = new ArrayList<String>();
         Collection<Integer> values = trSen.top.values();
