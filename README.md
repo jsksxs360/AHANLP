@@ -1,8 +1,6 @@
 # AHANLP
 啊哈自然语言处理包，集成了 [**HanLP**](https://github.com/hankcs/HanLP)、[**Word2Vec**](https://github.com/jsksxs360/Word2Vec) 等项目，提供高质量的中文自然语言处理服务。
 
-（注：本项目处于起步阶段，目前还在建设中）
-
 **AHANLP** 目前提供的功能有：
 
 - 分词类
@@ -37,7 +35,7 @@ AHANLP 沿用 HanLP 的数据组织结构，字典与模型分开存储，采用
 
 - 如果只需要使用到分词类的功能，那么只需要下载字典数据包 [AHANLP_dictionary](https://pan.baidu.com/s/1hs3hv28)。将解压出的 **dictionary** 目录存放到 `data/` 目录下。
 - 如果需要使用到句法分析类的功能，请额外下载 [AHANLP_parser_model](https://pan.baidu.com/s/1jI1bzfS)。将解压出的 **dependency** 目录存放到 `data/model/` 目录下。
-- 如果需要使用到摘要类或者 Word2Vec 的相关功能，请额外下载 [wiki_chinese_word2vec(Google).model](https://pan.baidu.com/s/1kUD0jzh)。将解压出的 model 文件存放到 `data/model/` 目录下。
+- 如果需要使用到摘要类或者 Word2Vec 的相关功能，请额外下载 [word2vec 模型](w2v.markdown)。将解压出的模型文件存放到 `data/model/` 目录下。
 - 如果需要使用到 LDA 主题预测功能，请额外下载 [AHANLP_LDA_model](https://pan.baidu.com/s/1nvNpZIh)，将解压出的 **SogouCS_LDA.model** 文件存放到 `data/model/` 目录下。如果你需要运行 LDADemo.java 进行测试，还需要下载 [SogouCA_mini](https://pan.baidu.com/s/1nvujNEL)，将解压出的 **mini** 文件夹存放到 `data/` 目录下。
 
 ### 3. 配置文件
