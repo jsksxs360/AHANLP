@@ -2,6 +2,7 @@ package me.xiaosheng.chnlp;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLSentence;
@@ -214,6 +215,26 @@ public class AHANLP {
     public static CoNLLSentence DependencyParse(String sentence, boolean englishTag) {
         return DependencyParser.parse(sentence, englishTag);
     }
+    
+    /**
+     * 获取词语在句法树中的深度
+     * @param sentence 句子
+     * @return 词语在句法树中的深度
+     */
+    public static Map<String, Integer> getWordsDepth(String sentence) {
+        return DependencyParser.getWordsDepth(sentence);
+    }
+    
+    /**
+     * 获取句法树上层词语
+     * @param sentence 句子
+     * @param maxDepth 句法树最大深度 
+     * @return 词语
+     */
+    public static List<String> getTopWords(String sentence, int maxDepth) {
+        return DependencyParser.getTopWords(sentence, maxDepth);
+    }
+    
     /**
      * 简体中文转繁体
      * @param simplifiedChinese 简体中文

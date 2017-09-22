@@ -157,6 +157,17 @@ for (CoNLLWord dep : deps)
 的 --(右附加关系)--> 中国
 首都 --(动宾关系)--> 是
 */
+
+//句法树前2层词语的深度:");
+Map<String, Integer> wordsDepth2 = DependencyParser.getTopWordsDepth(sentence, 1);
+for (Map.Entry<String, Integer> entry : wordsDepth2.entrySet()) {
+    System.out.println(entry.getKey() + " --- " + entry.getValue());
+}
+/*
+首都 --- 1
+北京 --- 1
+是 --- 0
+*/
 ```
 
 依存句法分析是对 HanLP 中 NeuralNetworkDependencyParser 的封装，使用的是[基于神经网络的高性能依存句法分析器](http://www.hankcs.com/nlp/parsing/neural-network-based-dependency-parser.html)。分析结果为 CoNLL 格式，可以按 CoNLLWord 类型进行迭代，如上所示，`CoNLLWord.LEMMA` 为从属词，`CoNLLWord.HEAD.LEMMA` 为支配词，`CoNLLWord.DEPREL` 为依存标签，默认为中文标签。
