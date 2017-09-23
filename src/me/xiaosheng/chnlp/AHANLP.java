@@ -217,21 +217,21 @@ public class AHANLP {
     }
     
     /**
-     * 获取词语在句法树中的深度
+     * 获取词语在依存句法树中的深度
      * @param sentence 句子
-     * @return 词语在句法树中的深度
+     * @return 词语在依存句法树中的深度
      */
-    public static Map<String, Integer> getWordsDepth(String sentence) {
+    public static Map<String, Integer> getWordsDepthInDST(String sentence) {
         return DependencyParser.getWordsDepth(sentence);
     }
     
     /**
-     * 获取句法树上层词语
+     * 获取依存句法树上层词语
      * @param sentence 句子
      * @param maxDepth 句法树最大深度 
      * @return 词语
      */
-    public static List<String> getTopWords(String sentence, int maxDepth) {
+    public static List<String> getTopWordsInDST(String sentence, int maxDepth) {
         return DependencyParser.getTopWords(sentence, maxDepth);
     }
     

@@ -158,8 +158,8 @@ for (CoNLLWord dep : deps)
 首都 --(动宾关系)--> 是
 */
 
-// 句法树前2层的词语
-List<String> words = AHANLP.getTopWords(sentence, 1);
+// 依存句法树前2层的词语
+List<String> words = AHANLP.getTopWordsInDST(sentence, 1);
 System.out.println(words);
 // [北京, 是, 首都]
 ```

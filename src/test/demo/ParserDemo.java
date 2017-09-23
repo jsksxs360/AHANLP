@@ -42,7 +42,7 @@ public class ParserDemo {
         
         // 打印每个词语在句法树中的深度
         System.out.println("\n词语在句法树中的深度:");
-        Map<String, Integer> wordsDepth = AHANLP.getWordsDepth(sentence);
+        Map<String, Integer> wordsDepth = AHANLP.getWordsDepthInDST(sentence);
         for (Map.Entry<String, Integer> entry : wordsDepth.entrySet()) {
             System.out.println(entry.getKey() + " --- " + entry.getValue());
         }
@@ -56,7 +56,7 @@ public class ParserDemo {
         
         // 获取上层词语
         System.out.println("\n句法树前3层的词语:");
-        List<String> words = AHANLP.getTopWords(sentence, 2);
+        List<String> words = AHANLP.getTopWordsInDST(sentence, 2);
         System.out.println(words);
         
         // 英文标签
