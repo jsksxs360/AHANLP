@@ -2,7 +2,16 @@
 
 下面提供一些训练好的 Word2Vector 模型，供大家使用。
 
-### 最新版（推荐）
+### 201710
+
+使用 2017 年 10 月的 Wiki 中文语料训练，使用 Skip-Gram 模型训练，单词维数 300，训练窗口 10。
+
+- 【模型】[Google_word2vec_zhwiki1710_300d.bin](http://pan.baidu.com/s/1i4BLryH)
+- 【语料】[zhwiki_1710_preprocessed.simplied.zip](http://pan.baidu.com/s/1hsMmRbu)
+
+注：语料已经使用 [AHANLP](https://github.com/jsksxs360/AHANLP) 做过分词处理（未去停用词）。
+
+### 201709
 
 使用 2017 年 9 月的 Wiki 中文语料训练，使用 Skip-Gram 模型训练，单词维数 300，训练窗口 5。
 
