@@ -2,7 +2,10 @@ package me.xiaosheng.chnlp.distance;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
+
+import com.ansj.vec.domain.WordEntry;
 
 import me.xiaosheng.chnlp.Config;
 import me.xiaosheng.chnlp.AHANLP;
@@ -20,6 +23,7 @@ public class Word2VecSimi {
             e.printStackTrace();
         }
     }
+    
     /**
      * 词语相似度
      * @param word1 词语1
@@ -28,6 +32,16 @@ public class Word2VecSimi {
      */
     public static float wordSimilarity(String word1, String word2) {
         return word2vec.wordSimilarity(word1, word2);
+    }
+    
+    /**
+     * 获取相似词语
+     * @param word 词语
+     * @param maxReturnNum 最大返回词数
+     * @return
+     */
+    public static Set<WordEntry> getSimilarWords(String word, int maxReturnNum) {
+        return word2vec.getSimilarWords(word, maxReturnNum);
     }
 
     /**

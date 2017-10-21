@@ -3,7 +3,9 @@ package me.xiaosheng.chnlp;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import com.ansj.vec.domain.WordEntry;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLSentence;
 import com.hankcs.hanlp.seg.common.Term;
@@ -150,6 +152,16 @@ public class AHANLP {
      */
     public static float wordSimilarity(String word1, String word2) {
         return Word2VecSimi.wordSimilarity(word1, word2);
+    }
+    
+    /**
+     * 获取相似词语
+     * @param word 词语
+     * @param maxReturnNum 最大返回词数
+     * @return
+     */
+    public static Set<WordEntry> getSimilarWords(String word, int maxReturnNum) {
+        return Word2VecSimi.getSimilarWords(word, maxReturnNum);
     }
     
     /**
