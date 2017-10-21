@@ -89,6 +89,15 @@ System.out.println(nlpSegResult);
 
 分词默认的返回结果包含词语和词性，可以通过 `AHANLP.getWordList(stdSegResult)` 和 `AHANLP.getNatureList(stdSegResult)` 来直接获取词语或词性列表。词性标注请参见[《HanLP 词性标注集》](hanlp_pos.markdown)。
 
+如果需要自定义词性过滤，可以使用 `me.xiaosheng.chnlp.seg.POSFilter` 类，它还实现了过滤标点、保留实词等常用方法。
+
+```java
+// 过滤标点
+POSFilter.removePunc(stdSegResult);
+// 保留名词
+POSFilter.selectPOS(stdSegResult, Arrays.asList("n", "ns", "nr", "nt", "nz"));
+```
+
 上面的分词器都支持对停用词的过滤，只需再带上第二个参数，并且设为 true 就可以了
 
 ```java
