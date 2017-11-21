@@ -9,3 +9,6 @@ hs_err_pid*
 data/dictionary/
 data/model/
 /bin/
+
+# MacOS
+.DS_Store
