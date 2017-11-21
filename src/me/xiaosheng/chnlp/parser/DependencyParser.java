@@ -58,19 +58,33 @@ public class DependencyParser {
     }
     
     /**
+     * 获得词语依存路径中的词语
+     * @param word
+     * @return 依存路径词语列表
+     */
+    public static List<String> getWordsInPath(CoNLLWord word) {
+        List<String> words = new ArrayList<String>();
+        if (word == CoNLLWord.ROOT) return words;
+        while (word != CoNLLWord.ROOT) {
+            words.add(word.LEMMA);
+            word = word.HEAD;
+        }
+        return words;
+    }
+    
+    /**
      * 获得词语的深度
      * @param word 词语
      * @return 词语在句法树中的深度
      */
     public static int calWordDepth(CoNLLWord word) {
         if (word == CoNLLWord.ROOT) return -1;
-        if (word.HEAD == CoNLLWord.ROOT) return 0;
         int depth = 0;
-        while(word.HEAD != null) {
+        while(word.HEAD != CoNLLWord.ROOT) {
             depth++;
             word = word.HEAD;
         }
-        return depth - 1;
+        return depth;
     }
     
     /**
