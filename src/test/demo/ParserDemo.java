@@ -40,6 +40,12 @@ public class ParserDemo {
             head = head.HEAD;
         }
         
+        // 打印每个词语的依存路径
+        System.out.println("\n词语依存路径中的词语:");
+        for (CoNLLWord word : wordArray) {
+            System.out.println(word.LEMMA + " : " + DependencyParser.getWordsInPath(word));
+        }
+        
         // 打印每个词语在句法树中的深度
         System.out.println("\n词语在句法树中的深度:");
         Map<String, Integer> wordsDepth = AHANLP.getWordsDepthInDST(sentence);
