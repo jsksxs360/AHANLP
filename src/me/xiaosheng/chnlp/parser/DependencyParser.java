@@ -67,7 +67,7 @@ public class DependencyParser {
         List<Term> words = new ArrayList<Term>();
         if (word == CoNLLWord.ROOT) return words;
         while (word != CoNLLWord.ROOT) {
-            words.add(new Term(word.LEMMA, Nature.fromString(word.CPOSTAG)));
+            words.add(new Term(word.LEMMA, Nature.fromString(word.POSTAG)));
             word = word.HEAD;
         }
         return words;
