@@ -169,6 +169,19 @@ for (CoNLLWord dep : deps)
 首都 --(动宾关系)--> 是
 */
 
+// 词语依存路径
+List<List<String>> wordPaths = AHANLP.getWordPathsInDST(sentence);
+for (List<String> wordPath : wordPaths) {
+    System.out.println(wordPath.get(0) + " : " + wordPath);
+}
+/*
+北京 : [北京, 是]
+是 : [是]
+中国 : [中国, 首都, 是]
+的 : [的, 中国, 首都, 是]
+首都 : [首都, 是]
+*/
+
 // 依存句法树前2层的词语
 List<String> words = AHANLP.getTopWordsInDST(sentence, 1);
 System.out.println(words);
