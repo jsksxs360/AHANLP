@@ -42,12 +42,9 @@ public class ParserDemo {
         
         // 打印每个词语的依存路径
         System.out.println("\n词语依存路径:");
-//        for (CoNLLWord word : wordArray) {
-//            System.out.println(word.LEMMA + " : " + DependencyParser.getWordsInPath(word));
-//        }
-        List<List<String>> wordPaths = AHANLP.getWordPathsInDST(sentence);
-        for (List<String> wordPath : wordPaths) {
-            System.out.println(wordPath.get(0) + " : " + wordPath);
+        List<List<Term>> wordPaths = AHANLP.getWordPathsInDST(sentence);
+        for (List<Term> wordPath : wordPaths) {
+            System.out.println(wordPath.get(0).word + " : " + AHANLP.getWordList(wordPath));
         }
         
         // 打印每个词语在句法树中的深度

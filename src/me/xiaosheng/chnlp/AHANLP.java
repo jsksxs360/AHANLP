@@ -233,7 +233,7 @@ public class AHANLP {
      * @param segResult
      * @return 依存路径列表
      */
-    public static List<List<String>> getWordPathsInDST(String sentence) {
+    public static List<List<Term>> getWordPathsInDST(String sentence) {
         return DependencyParser.getWordPaths(sentence);
     }
     

@@ -170,9 +170,9 @@ for (CoNLLWord dep : deps)
 */
 
 // 词语依存路径
-List<List<String>> wordPaths = AHANLP.getWordPathsInDST(sentence);
-for (List<String> wordPath : wordPaths) {
-    System.out.println(wordPath.get(0) + " : " + wordPath);
+List<List<Term>> wordPaths = AHANLP.getWordPathsInDST(sentence);
+for (List<Term> wordPath : wordPaths) {
+    System.out.println(wordPath.get(0).word + " : " + AHANLP.getWordList(wordPath));
 }
 /*
 北京 : [北京, 是]

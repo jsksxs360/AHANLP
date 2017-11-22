@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLSentence;
 import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLWord;
+import com.hankcs.hanlp.corpus.tag.Nature;
 import com.hankcs.hanlp.dependency.IDependencyParser;
 import com.hankcs.hanlp.dependency.nnparser.NeuralNetworkDependencyParser;
 import com.hankcs.hanlp.seg.common.Term;
@@ -62,11 +63,11 @@ public class DependencyParser {
      * @param word
      * @return 依存路径词语列表
      */
-    public static List<String> getWordsInPath(CoNLLWord word) {
-        List<String> words = new ArrayList<String>();
+    public static List<Term> getWordsInPath(CoNLLWord word) {
+        List<Term> words = new ArrayList<Term>();
         if (word == CoNLLWord.ROOT) return words;
         while (word != CoNLLWord.ROOT) {
-            words.add(word.LEMMA);
+            words.add(new Term(word.LEMMA, Nature.fromString(word.CPOSTAG)));
             word = word.HEAD;
         }
         return words;
@@ -77,9 +78,9 @@ public class DependencyParser {
      * @param segResult 分词结果
      * @return 依存路径列表
      */
-    public static List<List<String>> getWordPaths(List<Term> segResult) {
+    public static List<List<Term>> getWordPaths(List<Term> segResult) {
         CoNLLWord[] wordArray = parse(segResult).getWordArray();
-        List<List<String>> wordPaths = new ArrayList<List<String>>();
+        List<List<Term>> wordPaths = new ArrayList<List<Term>>();
         for (CoNLLWord word : wordArray)
             wordPaths.add(getWordsInPath(word));
         return wordPaths;
@@ -90,9 +91,9 @@ public class DependencyParser {
      * @param sentence 句子
      * @return 依存路径列表
      */
-    public static List<List<String>> getWordPaths(String sentence) {
+    public static List<List<Term>> getWordPaths(String sentence) {
         CoNLLWord[] wordArray = parse(sentence).getWordArray();
-        List<List<String>> wordPaths = new ArrayList<List<String>>();
+        List<List<Term>> wordPaths = new ArrayList<List<Term>>();
         for (CoNLLWord word : wordArray)
             wordPaths.add(getWordsInPath(word));
         return wordPaths;
