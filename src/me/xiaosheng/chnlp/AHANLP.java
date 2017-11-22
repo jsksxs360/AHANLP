@@ -229,6 +229,15 @@ public class AHANLP {
     }
     
     /**
+     * 获得词语依存路径
+     * @param segResult
+     * @return 依存路径列表
+     */
+    public static List<List<String>> getWordPathsInDST(String sentence) {
+        return DependencyParser.getWordPaths(sentence);
+    }
+    
+    /**
      * 获取词语在依存句法树中的深度
      * @param sentence 句子
      * @return 词语在依存句法树中的深度

@@ -73,6 +73,32 @@ public class DependencyParser {
     }
     
     /**
+     * 获得词语依存路径
+     * @param segResult 分词结果
+     * @return 依存路径列表
+     */
+    public static List<List<String>> getWordPaths(List<Term> segResult) {
+        CoNLLWord[] wordArray = parse(segResult).getWordArray();
+        List<List<String>> wordPaths = new ArrayList<List<String>>();
+        for (CoNLLWord word : wordArray)
+            wordPaths.add(getWordsInPath(word));
+        return wordPaths;
+    }
+    
+    /**
+     * 获得词语依存路径
+     * @param sentence 句子
+     * @return 依存路径列表
+     */
+    public static List<List<String>> getWordPaths(String sentence) {
+        CoNLLWord[] wordArray = parse(sentence).getWordArray();
+        List<List<String>> wordPaths = new ArrayList<List<String>>();
+        for (CoNLLWord word : wordArray)
+            wordPaths.add(getWordsInPath(word));
+        return wordPaths;
+    }
+    
+    /**
      * 获得词语的深度
      * @param word 词语
      * @return 词语在句法树中的深度
