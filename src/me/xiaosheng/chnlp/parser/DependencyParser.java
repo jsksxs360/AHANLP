@@ -58,17 +58,23 @@ public class DependencyParser {
         return parser.parse(sentence);
     }
     
+    public static List<Term> getWordsInPath(CoNLLWord word) {
+        return getWordsInPath(word, Integer.MAX_VALUE);
+    }
+    
     /**
      * 获得词语依存路径中的词语
-     * @param word
+     * @param word 词语
+     * @param maxReturn 最大路径长度
      * @return 依存路径词语列表
      */
-    public static List<Term> getWordsInPath(CoNLLWord word) {
+    public static List<Term> getWordsInPath(CoNLLWord word, int maxReturn) {
         List<Term> words = new ArrayList<Term>();
-        if (word == CoNLLWord.ROOT) return words;
+        if (word == CoNLLWord.ROOT || maxReturn < 1) return words;
         while (word != CoNLLWord.ROOT) {
             words.add(new Term(word.LEMMA, Nature.fromString(word.POSTAG)));
             word = word.HEAD;
+            if (--maxReturn < 1) break;
         }
         return words;
     }
@@ -88,6 +94,20 @@ public class DependencyParser {
     
     /**
      * 获得词语依存路径
+     * @param segResult 分词结果
+     * @param maxReturn 最大路径长度
+     * @return 依存路径列表
+     */
+    public static List<List<Term>> getWordPaths(List<Term> segResult, int maxReturn) {
+        CoNLLWord[] wordArray = parse(segResult).getWordArray();
+        List<List<Term>> wordPaths = new ArrayList<List<Term>>();
+        for (CoNLLWord word : wordArray)
+            wordPaths.add(getWordsInPath(word, maxReturn));
+        return wordPaths;
+    }
+    
+    /**
+     * 获得词语依存路径
      * @param sentence 句子
      * @return 依存路径列表
      */
@@ -96,6 +116,20 @@ public class DependencyParser {
         List<List<Term>> wordPaths = new ArrayList<List<Term>>();
         for (CoNLLWord word : wordArray)
             wordPaths.add(getWordsInPath(word));
+        return wordPaths;
+    }
+    
+    /**
+     * 获得词语依存路径
+     * @param sentence 句子
+     * @param maxReturn 最大路径长度
+     * @return 依存路径列表
+     */
+    public static List<List<Term>> getWordPaths(String sentence, int maxReturn) {
+        CoNLLWord[] wordArray = parse(sentence).getWordArray();
+        List<List<Term>> wordPaths = new ArrayList<List<Term>>();
+        for (CoNLLWord word : wordArray)
+            wordPaths.add(getWordsInPath(word, maxReturn));
         return wordPaths;
     }
     

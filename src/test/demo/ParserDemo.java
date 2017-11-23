@@ -46,6 +46,11 @@ public class ParserDemo {
         for (List<Term> wordPath : wordPaths) {
             System.out.println(wordPath.get(0).word + " : " + AHANLP.getWordList(wordPath));
         }
+        // 每个词语依存路径最大为2
+//        wordPaths = DependencyParser.getWordPaths(sentence, 2);
+//        for (List<Term> wordPath : wordPaths) {
+//            System.out.println(wordPath.get(0).word + " : " + AHANLP.getWordList(wordPath));
+//        }
         
         // 打印每个词语在句法树中的深度
         System.out.println("\n词语在句法树中的深度:");
