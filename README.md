@@ -35,8 +35,8 @@
 
 AHANLP 沿用 HanLP 的数据组织结构，字典与模型分开存储，采用模块化管理。用户可以根据自己的需要选择相应的数据包下载：
 
-- 如果只需要使用到分词类的功能，那么只需要下载字典数据包 [AHANLP_dictionary](https://pan.baidu.com/s/1hs3hv28)。将解压出的 **dictionary** 目录存放到 `data/` 目录下。
-- 如果需要使用到句法分析类的功能，请额外下载 [AHANLP_parser_model](https://pan.baidu.com/s/1jI1bzfS)。将解压出的 **dependency** 目录存放到 `data/model/` 目录下。
+- 如果只需要使用到分词类的功能，那么只需要下载字典数据包 [AHANLP_dictionary-1.1](https://pan.baidu.com/s/13Csy4ZsNTbJl7wDDEi9QsA)。将解压出的 **dictionary** 目录存放到 `data/` 目录下。
+- 如果需要使用到句法分析类的功能，请额外下载 [AHANLP_parser_model-1.1](https://pan.baidu.com/s/1PKIYhHX7SLgnEUhN7czi8g)。将解压出的 **dependency** 目录存放到 `data/model/` 目录下。
 - 如果需要使用到摘要类或者 Word2Vec 的相关功能，请额外下载 [word2vec 模型](w2v.markdown)。将解压出的模型文件存放到 `data/model/` 目录下。
 - 如果需要使用到 LDA 主题预测功能，请额外下载 [AHANLP_LDA_model](https://pan.baidu.com/s/1nvNpZIh)，将解压出的 **SogouCS_LDA.model** 文件存放到 `data/model/` 目录下。如果你需要运行 LDADemo.java 进行测试，还需要下载 [SogouCA_mini](https://pan.baidu.com/s/1nvujNEL)，将解压出的 **mini** 文件夹存放到 `data/` 目录下。
 
