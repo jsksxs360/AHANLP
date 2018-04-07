@@ -29,7 +29,7 @@
 - **[HanLP](https://github.com/hankcs/HanLP)：** 汉语言处理包
 - **[Word2Vec](https://github.com/jsksxs360/Word2Vec)：** 谷歌 word2vec 的 java 实现版本
 
-在 `lib` 目录下默认已包含 **hanlp-1.3.3.jar** 和 **Word2Vec-1.2.2.jar** 。
+在 `lib` 目录下默认已包含 **hanlp-1.6.1.jar** 和 **Word2Vec-1.2.2.jar** 。
 
 ### 2. 数据包
 
