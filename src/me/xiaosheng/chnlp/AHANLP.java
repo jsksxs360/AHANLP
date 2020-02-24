@@ -118,6 +118,16 @@ public class AHANLP {
     
     /**
      * 对句子列表分词
+     * @param sentenceList 句子列表
+     * @param filterStopWord 滤掉停用词
+     * @return 句子列表，每个句子由一个单词列表组成
+     */
+    public static List<List<Term>> splitWordInSentences(List<String> sentenceList, boolean filterStopWord) {
+    	return splitWordInSentences("Standard", sentenceList, filterStopWord);
+    }
+    
+    /**
+     * 对句子列表分词
      * @param segType 分词器类型（Standard 或 NLP）
      * @param sentenceList 句子列表
      * @param filterStopWord 滤掉停用词
