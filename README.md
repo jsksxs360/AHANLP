@@ -4,22 +4,22 @@
 **AHANLP** 目前提供的功能有：
 
 - 分词类
-  - 标准分词
-  - NLP分词
-  - 分词断句
-  - 命名实体识别
+  - [标准分词](#1-分词)
+  - [NLP 分词](#1-分词)
+  - [分词断句](#2-分词断句)
+  - [命名实体识别](#3-命名实体识别)
 - 句法分析类
-  - 依存句法分析
+  - [依存句法分析](#4-依存句法分析)
 - 摘要类
-  - TextRank 摘取关键词
-  - TextRank 摘取关键句和摘要
+  - [TextRank 摘取关键词](#5-textrank-摘取关键词)
+  - [TextRank 摘取关键句和摘要](#6-textrank-摘取关键句和自动摘要)
 - 语义类
-  - Word2Vec 词语相似度
-  - Word2Vec 句子相似度
-  - LDA 主题预测
+  - [Word2Vec 词语相似度](#7-语义距离)
+  - [Word2Vec 句子相似度](#7-语义距离)
+  - [LDA 主题预测](#8-lda-主题预测)
 - 附加功能
-  - 简繁转换
-  - WordCloud 绘制词云
+  - [简繁转换](#9-简繁转换)
+  - [WordCloud 绘制词云](#10-wordcloud-绘制词云)
 
 ## 下载与配置
 
@@ -37,7 +37,7 @@ AHANLP 沿用 HanLP 的数据组织结构，代码和数据分离，用户可以
 - 基础数据包 [AHANLP_base-1.2](https://pan.baidu.com/s/1TVMs3vlgwHrH1AlyBgmqpg) (提取码 3jq3) 包含**分词类**和**句法分析类**功能，下载解压后，将 `dictionary` 目录和 `model` 目录存放到项目的 `data/` 目录下。
 - 如果需要使用到**句子摘要**和 **Word2Vec** 的相关功能，请额外下载 [word2vec 模型](w2v.markdown)，将解压出的模型文件存放到项目的 `data/model/` 目录下。
 - 如果需要使用到 **LDA 主题预测**功能，请额外下载 [AHANLP_LDA_model](https://pan.baidu.com/s/1nvNpZIh)，将解压出的 `SogouCS_LDA.model` 文件存放到项目的 `data/model/` 目录下。如果你需要运行 LDADemo.java 进行测试，还需要下载 [SogouCA_mini](https://pan.baidu.com/s/1nvujNEL)，将解压出的 `mini` 文件夹存放到项目的 `data/` 目录下。
-- 如果需要使用 **WordCloud 绘制词云**服务，需要配置 Python 环境，并且安装 [wordcloud](http://www.lfd.uci.edu/~gohlke/pythonlibs/#wordcloud) 包，下载后使用 `python -m pip install xxx.whl` 安装。
+- 如果需要使用 **WordCloud 绘制词云**服务，需要 Python 环境，并且安装 [wordcloud](http://www.lfd.uci.edu/~gohlke/pythonlibs/#wordcloud) 包（下载后使用 `python -m pip install xxx.whl` 安装）。然后下载 [word_cloud](https://pan.baidu.com/s/1zhwZH5D5aO7gGHag1G76wQ) (提取码 9jb6)，将解压出的 `word_cloud` 文件夹放到项目根目录下。
 
 
 ### 3. 配置文件
@@ -49,6 +49,7 @@ AHANLP 项目中的各项参数均读取自配置文件（不建议用户修改�
 ```
 word2vecModel = data/model/wiki_chinese_word2vec(Google).model
 hanLDAModel = data/model/SogouCS_LDA.model
+wordCloudPath = word_cloud/ 
 pythonCMD = python
 ```
 
