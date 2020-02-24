@@ -20,48 +20,68 @@ import me.xiaosheng.chnlp.summary.TextRankSentence;
 
 public class AHANLP {
 
-    /**
-     * 标准分词
+	/**
+     * 标准分词<br>
+     * HMM-Bigram<br>
+     * 最短路分词，最短路求解采用Viterbi算法
      * @param content 文本
-     * @return
+     * @return 分词结果
      */
     public static List<Term> StandardSegment(String content) {
         return Segment.StandardSegment(content);
     }
     
     /**
-     * 标准分词
+     * 标准分词<br>
+     * HMM-Bigram<br>
+     * 最短路分词，最短路求解采用Viterbi算法
      * @param content 文本
      * @param filterStopWord 滤掉停用词
-     * @return
+     * @return 分词结果
      */
     public static List<Term> StandardSegment(String content, boolean filterStopWord) {
         return Segment.StandardSegment(content, filterStopWord);
     }
     
     /**
-     * 带有新词发现功能的分词
+     * NLP分词<br>
+     * 感知机分词<br>
+     * 执行词性标注和命名实体识别，更重视准确率
      * @param content 文本
-     * @return
+     * @return 分词结果
      */
     public static List<Term> NLPSegment(String content) {
         return Segment.NLPSegment(content);
     }
     
     /**
-     * 带有新词发现功能的分词
+     * NLP分词<br>
+     * 感知机分词<br>
+     * 执行词性标注和命名实体识别，更重视准确率
      * @param content 文本
      * @param filterStopWord 滤掉停用词
-     * @return
+     * @return 分词结果
      */
     public static List<Term> NLPSegment(String content, boolean filterStopWord) {
         return Segment.NLPSegment(content, filterStopWord);
     }
     
     /**
+     * 分词断句<br>
+     * 按句号、问好、感叹号分隔句子，逗号、分号不分隔
+     * @param segType 分词器类型（Standard 或 NLP）
+     * @param content 文本
+     * @param filterStopWord 滤掉停用词
+     * @return 句子列表，每个句子由一个单词列表组成
+     */
+    public static List<List<Term>> seg2sentence(String segType, String content, boolean filterStopWord) {
+    	return Segment.seg2sentence(segType, content, filterStopWord);
+    }
+    
+    /**
      * 获得词语列表
      * @param termList 分词结果
-     * @return
+     * @return 词语列表
      */
     public static List<String> getWordList(List<Term> termList) {
         return Segment.getWordList(termList);
@@ -70,14 +90,15 @@ public class AHANLP {
     /**
      * 获取词性列表
      * @param termList 分词结果
-     * @return
+     * @return 词性列表
      */
     public static List<String> getNatureList(List<Term> termList) {
         return Segment.getNatureList(termList);
     }
     
     /**
-     * 分句
+     * 分隔句子<br>
+     * 按句号、问好、感叹号分隔句子，逗号、分号不分隔
      * @param document 文本
      * @return 句子列表
      */
@@ -86,29 +107,31 @@ public class AHANLP {
     }
     
     /**
-     * 分句
+     * 分隔句子<br>
      * @param document 文本
-     * @param splitReg 切分符号(正则表达式)
+     * @param shortest 是否断句为最细的子句（将逗号、分号也视作分隔符）
      * @return 句子列表
      */
-    public static List<String> splitSentence(String document, String splitReg) {
-        return Segment.splitSentence(document, splitReg);
+    public static List<String> splitSentence(String document, boolean shortest) {
+        return Segment.splitSentence(document, shortest);
     }
     
     /**
      * 对句子列表分词
+     * @param segType 分词器类型（Standard 或 NLP）
      * @param sentenceList 句子列表
      * @param filterStopWord 滤掉停用词
-     * @return
+     * @return 句子列表，每个句子由一个单词列表组成
      */
-    public static List<List<String>> splitWordInSentences(List<String> sentenceList, boolean filterStopWord) {
-        return Segment.splitWordInSentences(sentenceList, filterStopWord);
+    public static List<List<Term>> splitWordInSentences(String segType, List<String> sentenceList, boolean filterStopWord) {
+        return Segment.splitWordInSentences(segType, sentenceList, filterStopWord);
     }
     
     /**
-     * 命名实体识别
+     * 命名实体识别<br>
+     * NLP分词器感知机模型
      * @param content 文本
-     * @return
+     * @return 实体列表
      */
     public static List<NERTerm> NER(String content) {
         return me.xiaosheng.chnlp.seg.NER.namedEntityRecognition(content);
@@ -122,6 +145,17 @@ public class AHANLP {
      */
     public static List<String> extractKeyword(String document, int num) {
         return TextRankKeyword.getKeywordList(document, num);
+    }
+    
+    /**
+     * 提取关键词
+     * @param segType 分词器类型，Standard或NLP
+     * @param document 文档
+     * @param num 关键词数量
+     * @return 关键词列表
+     */
+    public static List<String> getKeywordList(String segType, String document, int num) {
+    	return TextRankKeyword.getKeywordList(segType, document, num);
     }
     
     /**
@@ -148,7 +182,7 @@ public class AHANLP {
      * 词语相似度
      * @param word1 词语1
      * @param word2 词语2
-     * @return
+     * @return 词语相似度
      */
     public static float wordSimilarity(String word1, String word2) {
         return Word2VecSimi.wordSimilarity(word1, word2);
@@ -158,7 +192,7 @@ public class AHANLP {
      * 获取相似词语
      * @param word 词语
      * @param maxReturnNum 最大返回词数
-     * @return
+     * @return 相似词语
      */
     public static Set<WordEntry> getSimilarWords(String word, int maxReturnNum) {
         return Word2VecSimi.getSimilarWords(word, maxReturnNum);
@@ -166,12 +200,33 @@ public class AHANLP {
     
     /**
      * 句子相似度
+     * @param sentence1Words 句子1中的词语
+     * @param sentence2Words 句子2中的词语
+     * @return 句子相似度
+     */
+    public static float sentenceSimilarity(List<String> sentence1Words, List<String> sentence2Words) {
+    	return Word2VecSimi.sentenceSimilarity(sentence1Words, sentence2Words);
+    }
+    
+    /**
+     * 句子相似度
      * @param sentence1 句子1
      * @param sentence2 句子2
-     * @return
+     * @return 句子相似度
      */
     public static float sentenceSimilarity(String sentence1, String sentence2) {
         return Word2VecSimi.sentenceSimilarity(sentence1, sentence2);
+    }
+    
+    /**
+     * 句子相似度
+     * @param segType 分词器类型（Standard 或 NLP）
+     * @param sentence1 句子1
+     * @param sentence2 句子2
+     * @return 句子相似度
+     */
+    public static float sentenceSimilarity(String segType, String sentence1, String sentence2) {
+    	return Word2VecSimi.sentenceSimilarity(segType, sentence1, sentence2);
     }
     
     /**

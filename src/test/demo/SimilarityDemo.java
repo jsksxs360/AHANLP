@@ -6,7 +6,6 @@ import java.util.Set;
 import com.ansj.vec.domain.WordEntry;
 
 import me.xiaosheng.chnlp.AHANLP;
-import me.xiaosheng.chnlp.distance.Word2VecSimi;
 
 public class SimilarityDemo {
 
@@ -35,8 +34,13 @@ public class SimilarityDemo {
         List<String> sen1words = AHANLP.getWordList(AHANLP.NLPSegment(s1, true));
         List<String> sen2words = AHANLP.getWordList(AHANLP.NLPSegment(s2, true));
         List<String> sen3words = AHANLP.getWordList(AHANLP.NLPSegment(s3, true));
-        System.out.println("s1 | s1 : " + Word2VecSimi.sentenceSimilarity(sen1words, sen1words));
-        System.out.println("s1 | s2 : " + Word2VecSimi.sentenceSimilarity(sen1words, sen2words));
-        System.out.println("s1 | s3 : " + Word2VecSimi.sentenceSimilarity(sen1words, sen3words));
+        System.out.println("s1 | s1 : " + AHANLP.sentenceSimilarity(sen1words, sen1words));
+        System.out.println("s1 | s2 : " + AHANLP.sentenceSimilarity(sen1words, sen2words));
+        System.out.println("s1 | s3 : " + AHANLP.sentenceSimilarity(sen1words, sen3words));
+        
+        System.out.println("or");
+        System.out.println("s1 | s1 : " + AHANLP.sentenceSimilarity("NLP", s1, s1));
+        System.out.println("s1 | s2 : " + AHANLP.sentenceSimilarity("NLP", s1, s2));
+        System.out.println("s1 | s3 : " + AHANLP.sentenceSimilarity("NLP", s1, s3));
     }
 }

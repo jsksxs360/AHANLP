@@ -6,8 +6,7 @@
 - 分词类
   - 标准分词
   - NLP分词
-  - 分句
-  - 多句分词
+  - 分词断句
   - 命名实体识别
 - 句法分析类
   - 依存句法分析
@@ -29,16 +28,17 @@
 - **[HanLP](https://github.com/hankcs/HanLP)：** 汉语言处理包
 - **[Word2Vec](https://github.com/jsksxs360/Word2Vec)：** 谷歌 word2vec 的 java 实现版本
 
-在 `lib` 目录下默认已包含 **hanlp-1.6.1.jar** 和 **Word2Vec-1.2.2.jar** 。
+在 `lib` 目录下默认已包含 **hanlp-1.7.6.jar** 和 **Word2Vec-1.2.2.jar** 。
 
 ### 2. 数据包
 
-AHANLP 沿用 HanLP 的数据组织结构，字典与模型分开存储，采用模块化管理。用户可以根据自己的需要选择相应的数据包下载：
+AHANLP 沿用 HanLP 的数据组织结构，代码和数据分离，用户可以根据自己的需要选择相应的数据包下载：
 
-- 如果只需要使用到分词类的功能，那么只需要下载字典数据包 [AHANLP_dictionary-1.1](https://pan.baidu.com/s/13Csy4ZsNTbJl7wDDEi9QsA)。将解压出的 **dictionary** 目录存放到 `data/` 目录下。
-- 如果需要使用到句法分析类的功能，请额外下载 [AHANLP_parser_model-1.1](https://pan.baidu.com/s/1PKIYhHX7SLgnEUhN7czi8g)。将解压出的 **dependency** 目录存放到 `data/model/` 目录下。
-- 如果需要使用到摘要类或者 Word2Vec 的相关功能，请额外下载 [word2vec 模型](w2v.markdown)。将解压出的模型文件存放到 `data/model/` 目录下。
-- 如果需要使用到 LDA 主题预测功能，请额外下载 [AHANLP_LDA_model](https://pan.baidu.com/s/1nvNpZIh)，将解压出的 **SogouCS_LDA.model** 文件存放到 `data/model/` 目录下。如果你需要运行 LDADemo.java 进行测试，还需要下载 [SogouCA_mini](https://pan.baidu.com/s/1nvujNEL)，将解压出的 **mini** 文件夹存放到 `data/` 目录下。
+- 基础数据包 [AHANLP_base-1.2](https://pan.baidu.com/s/1TVMs3vlgwHrH1AlyBgmqpg) (提取码 3jq3) 包含**分词类**和**句法分析类**功能，下载解压后，将 `dictionary` 目录和 `model` 目录存放到项目的 `data/` 目录下。
+- 如果需要使用到**句子摘要**和 **Word2Vec** 的相关功能，请额外下载 [word2vec 模型](w2v.markdown)，将解压出的模型文件存放到项目的 `data/model/` 目录下。
+- 如果需要使用到 **LDA 主题预测**功能，请额外下载 [AHANLP_LDA_model](https://pan.baidu.com/s/1nvNpZIh)，将解压出的 `SogouCS_LDA.model` 文件存放到项目的 `data/model/` 目录下。如果你需要运行 LDADemo.java 进行测试，还需要下载 [SogouCA_mini](https://pan.baidu.com/s/1nvujNEL)，将解压出的 `mini` 文件夹存放到项目的 `data/` 目录下。
+- 如果需要使用 **WordCloud 绘制词云**服务，需要配置 Python 环境，并且安装 [wordcloud](http://www.lfd.uci.edu/~gohlke/pythonlibs/#wordcloud) 包，下载后使用 `python -m pip install xxx.whl` 安装。
+
 
 ### 3. 配置文件
 
@@ -58,12 +58,6 @@ HanLP 配置文件为 `hanlp.properties`，只需要在第一行设置 data 目�
 root=./
 ```
 
-### 3. 附加
-
-如果需要使用 WordCloud 绘制词云服务，需要配置 Python 环境（建议使用 Anaconda），并且安装以下 package：
-
-- wordcloud: 点击[这里](http://www.lfd.uci.edu/~gohlke/pythonlibs/#wordcloud)下载 whl 文件，然后使用 `python -m pip install xxx.whl` 安装
-
 ## 调用方法
 
 **AHANLP** 几乎所有的功能都可以通过工具类 `AHANLP` 快捷调用。并且推荐用户始终通过工具类 AHANLP 调用，这样将来 AHANLP 升级后，用户无需修改调用代码。
@@ -82,12 +76,12 @@ System.out.println(stdSegResult);
 // NLP分词
 List<Term> nlpSegResult = AHANLP.NLPSegment(content);
 System.out.println(nlpSegResult);
-//[中国科学院计算技术研究所/nt, 的/ude1, 宗成庆/nr, 教授/nnt, 正在/d, 教授/v, 自然语言处理/nz, 课程/n, 。/w]
+//[中国科学院计算技术研究所/nt, 的/u, 宗/q, 成庆/vn, 教授/n, 正在/d, 教授/v, 自然语言处理/nz, 课程/n, 。/w]
 ```
 
-**StandardSegment** 标准分词是对 HanLP 中 StandardTokenizer 的封装，在绝大多数场合下都是最好的选择，推荐使用。**NLPSegment** NLP分词是对 HanLP 中 NLPTokenizer 的封装，会执行全部命名实体识别和词性标注。
+**标准分词 (StandardSegment)** 封装了 HMM-Bigram 模型，使用最短路方法分词（最短路求解采用 Viterbi 算法），兼顾了效率和效果。**NLP分词 (NLPSegment)** 封装了感知机模型，由[结构化感知机序列标注框架](https://github.com/hankcs/HanLP/wiki/结构化感知机标注框架)支撑，会同时执行词性标注和命名实体识别，准确率更高，适合生产环境使用。
 
-分词默认的返回结果包含词语和词性，可以通过 `AHANLP.getWordList(stdSegResult)` 和 `AHANLP.getNatureList(stdSegResult)` 来直接获取词语或词性列表。词性标注请参见[《HanLP 词性标注集》](hanlp_pos.markdown)。
+分词默认的返回结果包含词语和词性，可以分别通过 `AHANLP.getWordList(stdSegResult)` 和 `AHANLP.getNatureList(stdSegResult)` 来获取词语或词性列表。词性标注请参见[《HanLP 词性标注集》](hanlp_pos.markdown)。
 
 如果需要自定义词性过滤，可以使用 `me.xiaosheng.chnlp.seg.POSFilter` 类，它还实现了过滤标点、保留实词等常用方法。
 
@@ -114,47 +108,40 @@ System.out.println(stdWordList);
 - 每一行代表一个单词，格式遵从 `[单词] [词性A] [A的频次] [词性B] [B的频次] ...`  如果不填词性则表示采用词典的默认词性。
 - 词典的默认词性默认是名词 n，可以通过配置文件修改： `全国地名大全.txt ns;` 如果词典路径后面空格紧接着词性，则该词典默认是该词性。
 
-程序默认从缓存文件(filename.txt.bin 或 filename.txt.trie.dat 和 filename.txt.trie.value)中读取字典，如果你修改了任何词典，只有删除缓存才能生效。
+**注意：**程序默认从缓存文件(filename.txt.bin 或 filename.txt.trie.dat 和 filename.txt.trie.value)中读取字典，如果你修改了任何词典，只有删除缓存才能生效。
 
-### 2. 分句
+### 2. 分词断句
+
+```java
+List<List<Term>> segResults = AHANLP.seg2sentence("Standard", content, true);
+for (int i = 0; i < senList.size(); i++)
+    System.out.println((i + 1) + " : " + AHANLP.getWordList(results.get(i)));
+```
+
+对长文本按句子进行分词也是常见用法，返回是由所有句子分词结果组成的列表。通过第一个 segType 参数控制分词器的类型：“Standard”对应标准分词，“NLP”对应NLP分词。
+
+当然也可以先手工断句，再进行多句分词。
 
 ```java
 List<String> senList = AHANLP.splitSentence(content);
-for (int i = 0; i < senList.size(); i++)
-    System.out.println((i + 1) + " : " + senList.get(i));
-```
-
-默认以 `[，,。:：“”？?！!；;]` 为句间分隔符切分句子，也可以使用自定义的分隔符，以参数形式传入
-
-```java
-List<String> senList = AHANLP.splitSentence(content, "[,。？！；]");
-```
-
-### 3. 多句分词
-
-```java
-List<List<String>> senWordList = AHANLP.splitWordInSentences(senList, true);
+List<List<Term>> senWordList = AHANLP.splitWordInSentences("Standard", senList, true);
 for (int i = 0; i < senWordList.size(); i++)
     System.out.println((i + 1) + " : " + senWordList.get(i));
 ```
 
-**AHANLP** 还支持同时对句子列表进行分词，分词器使用标准分词，返回每个句子中分出的词语列表（不包含词性）。
-
-### 4. 命名实体识别
+### 3. 命名实体识别
 
 ```java
 String sentence = "2013年9月，习近平出席上合组织比什凯克峰会和二十国集团圣彼得堡峰会，"
                 + "并对哈萨克斯坦等中亚4国进行国事访问。在“一带一路”建设中，这次重大外交行程注定要被历史铭记。";
 List<NERTerm> NERResult = AHANLP.NER(sentence);
 System.out.println(NERResult);
-// [习近平/per, 上合组织/org, 比什凯克/loc, 二十国集团/org, 圣彼得堡/loc, 哈萨克斯坦/loc, 中亚/loc, 2013年9月/time]
+//[2013年9月/time, 习近平/per, 上合组织/org, 比什凯克/loc, 二十国集团/org, 圣彼得堡/loc, 哈萨克斯坦/loc, 中亚/loc]
 ```
 
-命名实体识别负责识别出文本中的人名、地名、机构名，**AHANLP** 在这三类之外还添加了时间信息的识别。其中，人名、地名、机构名识别是在 HanLP 中 StandardTokenizer 的基础上进行的，而时间信息的识别则是在 HanLP 中 NLPTokenizer 的基础上进行的。
+封装了 NLP 分词器感知机模型，由[结构化感知机序列标注框架](https://github.com/hankcs/HanLP/wiki/结构化感知机标注框架)支撑，识别出文本中的时间、地名、人名、机构名：人名 `per`、地名 `loc`、机构名 `org`、时间 `time`。
 
-注意：人名使用 per 标注、地名使用 loc 标注、机构名使用 org 标注、时间使用 time 标注。
-
-### 5. 依存句法分析
+### 4. 依存句法分析
 
 ```java
 String sentence = "北京是中国的首都";
@@ -198,7 +185,7 @@ CoNLLSentence enDeps = AHANLP.DependencyParse(sentence, true);
 
 关于依存标签的详细说明，可以参见[《依存标签》](dep_tag.markdown)。
 
-### 6. TextRank 摘取关键词
+### 5. TextRank 摘取关键词
 
 ```java
 String document = "我国第二艘航空母舰下水仪式26日上午在中国船舶重工集团公司大连造船厂举行。航空母舰在拖曳牵引下缓缓移出船坞，停靠码头。目前，航空母舰主船体完成建造，动力、电力等主要系统设备安装到位。";
@@ -207,9 +194,9 @@ System.out.println(wordList);
 //[航空母舰, 动力, 建造, 牵引, 完成]
 ```
 
-**extractKeyword** 函数通过第二个参数设定返回的关键词个数。内部通过 TextRank 算法计算每个词语的 Rank 值，并按 Rank 值降序排列，提取出前面的几个作为关键词。具体原理可以参见[《TextRank算法提取关键词和摘要》](http://xiaosheng.me/2017/04/08/article49/)。
+**extractKeyword** 函数通过第二个参数设定返回的关键词个数。内部通过 TextRank 算法计算每个词语的 Rank 值，并按 Rank 值降序排列，提取出前面的几个作为关键词。具体原理可以参见[《TextRank算法提取关键词和摘要》](http://xiaosheng.online/2017/04/08/article49/)。
 
-### 7. TextRank 摘取关键句和自动摘要
+### 6. TextRank 摘取关键句和自动摘要
 
 ```java
 String document = "我国第二艘航空母舰下水仪式26日上午在中国船舶重工集团公司大连造船厂举行。"
@@ -225,20 +212,20 @@ System.out.println(AHANLP.extractSummary(document, 50));
 /*
 Key Sentences: 
 1 : 航空母舰主船体完成建造
-2 : 航空母舰在拖曳牵引下缓缓移出船坞
-3 : 该航空母舰将按计划进行系统设备调试和舾装施工
-4 : 并全面开展系泊试验
+2 : 该航空母舰将按计划进行系统设备调试和舾装施工
+3 : 我国第二艘航空母舰下水仪式26日上午在中国船舶重工集团公司大连造船厂举行
+4 : 标志着我国自主设计建造航空母舰取得重大阶段性成果
 5 : 出坞下水是航空母舰建设的重大节点之一
 Summary: 
-航空母舰在拖曳牵引下缓缓移出船坞。航空母舰主船体完成建造。出坞下水是航空母舰建设的重大节点之一。
+我国第二艘航空母舰下水仪式26日上午在中国船舶重工集团公司大连造船厂举行。航空母舰主船体完成建造。
 */
 ```
 
-**extractKeySentence** 函数负责摘取关键句，第二个参数控制摘取的关键句数量。**extractSummary** 函数负责自动摘要，第二个参数设定摘要字数上限。内部通过 TextRank 算法计算每个句子的 Rank 值，并按 Rank 值降序排列，提取出前面的几个作为关键句。自动摘要类似，并且还考虑了句子在原文中的位置以及句子的长度。具体原理可以参见[《TextRank算法提取关键词和摘要》](http://xiaosheng.me/2017/04/08/article49/)。
+**extractKeySentence** 函数负责摘取关键句，第二个参数控制摘取的关键句数量。**extractSummary** 函数负责自动摘要，第二个参数设定摘要字数上限。内部通过 TextRank 算法计算每个句子的 Rank 值，并按 Rank 值降序排列，提取出前面的几个作为关键句。自动摘要类似，并且还考虑了句子在原文中的位置以及句子的长度。具体原理可以参见[《TextRank算法提取关键词和摘要》](http://xiaosheng.online/2017/04/08/article49/)。
 
 句子之间的相似程度（即 TextRank 算法中的权值）使用 Word2Vec 提供的函数计算，默认使用了维基百科中文语料训练出的模型，也可以使用自定义模型。
 
-### 8. 语义距离
+### 7. 语义距离
 
 ```java
 System.out.println("猫 | 狗 : " + AHANLP.wordSimilarity("猫", "狗"));
@@ -261,11 +248,11 @@ s1 | s3 : 0.3648093
 */
 ```
 
-**wordSimilarity** 和 **sentenceSimilarity** 分别是计算词语和句子相似度的函数，计算过程都使用了 Word2Vec 模型提供的词向量，使用前需要在 `ahanlp.properties` 文件中配置好 Word2Vec 模型路径。词语相似度直接通过计算词向量余弦值得到，句子相似度求取方式可以参见 [Word2Vec/issues1](https://github.com/jsksxs360/Word2Vec/issues/1)。如果想自己训练 Word2Vec 模型，可以参考[训练 Google 版模型](https://github.com/jsksxs360/Word2Vec#user-content-2-训练-google-版模型)。
+**wordSimilarity** 和 **sentenceSimilarity** 分别是计算词语和句子相似度的函数，计算过程都使用到了 Word2Vec 模型预训练好的词向量，使用前需要下载 [word2vec 模型](w2v.markdown)，然后将解压出的模型文件存放到项目的 `data/model/` 目录下。词语相似度直接通过计算词向量余弦值得到，句子相似度求取方式可以参见 [Word2Vec/issues1](https://github.com/jsksxs360/Word2Vec/issues/1)。如果想自己训练 Word2Vec 模型，可以参考[训练 Google 版模型](https://github.com/jsksxs360/Word2Vec#user-content-2-训练-google-版模型)。
 
-注：**sentenceSimilarity** 使用标准分词对句子进行分词，并过滤停用词。
+注：**sentenceSimilarity** 默认使用标准分词对句子进行分词，并过滤停用词。
 
-### 9. LDA 主题预测
+### 8. LDA 主题预测
 
 ```java
 int topicNum510 = AHANLP.topicInference("data/mini/军事_510.txt");
@@ -286,7 +273,7 @@ int topicNum810 = AHANLP.topicInference("data/model/testLDA.model", "data/mini/�
 System.out.println("军事_810.txt 最可能的主题号为: " + topicNum810);
 ```
 
-### 10. 简繁转换
+### 9. 简繁转换
 
 ```java
 String tc = AHANLP.convertSC2TC("用笔记本电脑写程序");
@@ -301,7 +288,7 @@ System.out.println(sc);
 
 简繁转换是对 HanLP 中 `convertToTraditionalChinese` 和 `convertToSimplifiedChinese` 方法的包装。能够识别简繁分歧词，比如 `打印机=印表機`；以及许多简繁转换工具不能区分的字，例如“以后”、“皇后”中的两个“后”字。
 
-### 11. WordCloud 绘制词云
+### 10. WordCloud 绘制词云
 
 ```java
 String document = "我国第二艘航空母舰下水仪式26日上午在中国船舶重工集团公司大连造船厂举行。" + "中共中央政治局委员、中央军委副主席范长龙出席仪式并致辞。9时许，仪式在雄壮的国歌声中开始。"
@@ -309,7 +296,7 @@ String document = "我国第二艘航空母舰下水仪式26日上午在中国�
                 + "航空母舰在拖曳牵引下缓缓移出船坞，停靠码头。第二艘航空母舰由我国自行研制，2013年11月开工，2015年3月开始坞内建造。" + "目前，航空母舰主船体完成建造，动力、电力等主要系统设备安装到位。"
                 + "出坞下水是航空母舰建设的重大节点之一，标志着我国自主设计建造航空母舰取得重大阶段性成果。" + "下一步，该航空母舰将按计划进行系统设备调试和舾装施工，并全面开展系泊试验。"
                 + "海军、中船重工集团领导沈金龙、苗华、胡问鸣以及军地有关部门领导和科研人员、干部职工、参建官兵代表等参加仪式。";
-List<String> wordList = Segment.getWordList(Segment.StandardSegment(document, true));
+List<String> wordList = AHANLP.getWordList(AHANLP.StandardSegment(document, true));
 WordCloud wc = new WordCloud(wordList);
 try {
     wc.createImage("D:\\test.png");
@@ -341,6 +328,6 @@ wc.createImage("D:\\test_1000x800_black.png", 1000, 800, true); // 尺寸 1000x8
 - [word_cloud](https://github.com/amueller/word_cloud)
 - [SharpICTCLAS](http://www.cnblogs.com/zhenyulu/archive/2007/04/18/718383.html)
 - [snownlp](https://github.com/isnowfy/snownlp)
-- ​[nlp-lang](https://github.com/NLPchina/nlp-lang)
+- [nlp-lang](https://github.com/NLPchina/nlp-lang)
 
 

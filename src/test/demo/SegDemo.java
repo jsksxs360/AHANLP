@@ -33,6 +33,11 @@ public class SegDemo {
         //POSFilter.selectRealWords(stdSegResult);
         POSFilter.selectPOS(stdSegResult, Arrays.asList("n", "ns", "nr", "nt", "nz", "v", "vd", "vn", "a", "ad", "an", "d"));
         System.out.println("标准分词(去停用词，保留实词):\n" + AHANLP.getWordList(stdSegResult));
+        // 分词断句 输出句子形式(去停用词)
+        System.out.println("分词断句(去停用词):");
+        List<List<Term>> results = AHANLP.seg2sentence("Standard", content, true);
+        for (int i = 0; i < results.size(); i++)
+        	System.out.println((i + 1) + " : " + AHANLP.getWordList(results.get(i)));
         // 分句
         System.out.println("切分句子:");
         List<String> senList = AHANLP.splitSentence(content);
@@ -40,7 +45,7 @@ public class SegDemo {
             System.out.println((i + 1) + " : " + senList.get(i));
         // 对句子列表分词
         System.out.println("对句子列表分词(去停用词):");
-        List<List<String>> senWordList = AHANLP.splitWordInSentences(senList, true);
+        List<List<Term>> senWordList = AHANLP.splitWordInSentences("Standard", senList, true);
         for (int i = 0; i < senWordList.size(); i++)
             System.out.println((i + 1) + " : " + senWordList.get(i));
     }

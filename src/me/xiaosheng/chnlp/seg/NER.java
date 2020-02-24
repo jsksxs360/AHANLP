@@ -3,9 +3,8 @@ package me.xiaosheng.chnlp.seg;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hankcs.hanlp.seg.common.Term;
+import com.hankcs.hanlp.corpus.document.sentence.word.IWord;
 import com.hankcs.hanlp.tokenizer.NLPTokenizer;
-import com.hankcs.hanlp.tokenizer.StandardTokenizer;
 
 /**
  * 命名实体识别
@@ -15,40 +14,22 @@ import com.hankcs.hanlp.tokenizer.StandardTokenizer;
 public class NER {
     
     /**
-     * 命名实体识别
+     * 命名实体识别<br>
+     * NLP分词器感知机模型
      * @param content 文本
-     * @return
+     * @return 实体列表
      */
     public static List<NERTerm> namedEntityRecognition(String content) {
-        List<NERTerm> result = new ArrayList<NERTerm>();
-        // 进行标准分词和NLP分词
-        List<Term> segResult = StandardTokenizer.segment(content);
-        List<Term> nlpSegResult = NLPTokenizer.segment(content);
-        // 标准分词提取地名、人名、机构名
-        for (Term term : segResult) {
-            if (term.nature.toString().startsWith("ns")) {
-                result.add(new NERTerm(term.word, "loc"));
-            } else if (term.nature.toString().startsWith("nr")) {
-                result.add(new NERTerm(term.word, "per"));
-            } else if (term.nature.toString().startsWith("nt")) {
-                result.add(new NERTerm(term.word, "org"));
-            }
-        }
-        // NLP分词提取时间
-        String temp = "";
-        for (int i = 0; i < nlpSegResult.size(); i++) {
-            Term term = nlpSegResult.get(i);
-            // 处理 m + qt，例如: 3/m 月/qt
-            if (term.nature.toString().equals("m") && (i+1 < nlpSegResult.size()) && nlpSegResult.get(i+1).nature.toString().equals("qt")) {
-                temp += (term.word + nlpSegResult.get(i+1).word);
-                i++;
-            } else if (term.nature.toString().equals("t")) {
-                temp += term.word;
-            } else {
-                if (!temp.isEmpty()) {
-                    result.add(new NERTerm(temp, "time"));
-                    temp = "";
-                }
+    	List<NERTerm> result = new ArrayList<NERTerm>();
+		for (IWord word : NLPTokenizer.analyze(content)) {
+			if (word.getLabel().startsWith("ns")) {
+                result.add(new NERTerm(word.getValue(), "loc"));
+            } else if (word.getLabel().startsWith("nr")) {
+                result.add(new NERTerm(word.getValue(), "per"));
+            } else if (word.getLabel().startsWith("nt")) {
+                result.add(new NERTerm(word.getValue(), "org"));
+            } else if (word.getLabel().equals("t")) {
+            	result.add(new NERTerm(word.getValue(), "time"));
             }
         }
         return result;
