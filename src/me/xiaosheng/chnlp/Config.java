@@ -37,6 +37,15 @@ public class Config {
     }
     
     /**
+     * word cloud文件目录
+     * 
+     * @return
+     */
+    public static String wordCloudPath() {
+        return props.getProperty("wordCloudPath");
+    }
+    
+    /**
      * python 调用命令
      * 
      * @return

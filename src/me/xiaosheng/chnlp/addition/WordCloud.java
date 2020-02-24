@@ -58,7 +58,7 @@ public class WordCloud {
     public void createImage(String savePicPath, int picWidth, int picHeight, boolean blackBackground) throws IOException {
         String tempFileName = UUID.randomUUID().toString();
         // 生成临时词语文件
-        BufferedWriter bw = new BufferedWriter(new FileWriter("word_cloud/" + tempFileName));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(Config.wordCloudPath() + tempFileName));
         for (String word : wordList)
             bw.write(word + "\n");
         bw.flush();
@@ -78,7 +78,7 @@ public class WordCloud {
         cmd.append(" -f ");
         cmd.append("\"simhei.ttf\"");
         System.out.println(cmd.toString());
-        Process pr = Runtime.getRuntime().exec(cmd.toString(), null, new File("word_cloud/"));
+        Process pr = Runtime.getRuntime().exec(cmd.toString(), null, new File(Config.wordCloudPath()));
         try {
             pr.waitFor();
         } catch (InterruptedException e) {
@@ -86,7 +86,7 @@ public class WordCloud {
         } finally {
             pr.destroy();
         }
-        new File("word_cloud/" + tempFileName).delete();
+        new File(Config.wordCloudPath() + tempFileName).delete();
         System.out.println("create wordcloud success!");
     }
 }
