@@ -139,7 +139,7 @@ public class AHANLP {
     
     /**
      * 命名实体识别<br>
-     * NLP分词器感知机模型
+     * 感知机和CRF模型
      * @param content 文本
      * @return 实体列表
      */

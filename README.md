@@ -62,16 +62,16 @@ root=./
 ### 1. 分词
 
 ```java
-String content = "中国科学院计算技术研究所的宗成庆教授正在教授自然语言处理课程。";
+String content = "苏州大学的周国栋教授正在教授自然语言处理课程。";
 // 标准分词
 List<Term> stdSegResult = AHANLP.StandardSegment(content);
 System.out.println(stdSegResult);
-//[中国科学院计算技术研究所/nt, 的/ude1, 宗成庆/nr, 教授/nnt, 正在/d, 教授/nnt, 自然语言处理/nz, 课程/n, 。/w]
+//[苏州大学/ntu, 的/ude1, 周/qt, 国栋/nz, 教授/nnt, 正在/d, 教授/nnt, 自然语言处理/nz, 课程/n, 。/w]
 
 // NLP分词
 List<Term> nlpSegResult = AHANLP.NLPSegment(content);
 System.out.println(nlpSegResult);
-//[中国科学院计算技术研究所/nt, 的/u, 宗/q, 成庆/vn, 教授/n, 正在/d, 教授/v, 自然语言处理/nz, 课程/n, 。/w]
+//[苏州大学/ntu, 的/u, 周国栋/nr, 教授/n, 正在/d, 教授/v, 自然语言处理/nz, 课程/n, 。/w]
 ```
 
 **标准分词 (StandardSegment)** 封装了 HMM-Bigram 模型，使用最短路方法分词（最短路求解采用 Viterbi 算法），兼顾了效率和效果。**NLP分词 (NLPSegment)** 封装了感知机模型，由[结构化感知机序列标注框架](https://github.com/hankcs/HanLP/wiki/结构化感知机标注框架)支撑，会同时执行词性标注和命名实体识别，准确率更高，适合生产环境使用。
@@ -90,10 +90,10 @@ POSFilter.selectPOS(stdSegResult, Arrays.asList("n", "ns", "nr", "nt", "nz"));
 上面的分词器都支持对停用词的过滤，只需再带上第二个参数，并且设为 true 就可以了
 
 ```java
-List<Term> stdSegResult = AHANLP.StandardSegment(content, true);
+List<Term> stdSegResult = AHANLP.NLPSegment(content, true);
 List<String> stdWordList = AHANLP.getWordList(stdSegResult);
 System.out.println(stdWordList);
-//[中国科学院计算技术研究所, 宗成庆, 教授, 正在, 教授, 自然语言处理, 课程]
+//[苏州大学, 周国栋, 教授, 正在, 教授, 自然语言处理, 课程]
 ```
 
 分词支持用户自定义字典，HanLP 中使用 `CustomDictionary` 类表示，是一份全局的用户自定义词典，影响全部分词器。词典文本路径是 `data/dictionary/custom/CustomDictionary.txt`，用户可以在此增加自己的词语（不推荐）。也可以单独新建一个文本文件，通过配置文件 `CustomDictionaryPath=data/dictionary/custom/CustomDictionary.txt; 我的词典.txt;` 来追加词典（推荐）。
@@ -131,10 +131,10 @@ String sentence = "2013年9月，习近平出席上合组织比什凯克峰会�
                 + "并对哈萨克斯坦等中亚4国进行国事访问。在“一带一路”建设中，这次重大外交行程注定要被历史铭记。";
 List<NERTerm> NERResult = AHANLP.NER(sentence);
 System.out.println(NERResult);
-//[2013年9月/time, 习近平/per, 上合组织/org, 比什凯克/loc, 二十国集团/org, 圣彼得堡/loc, 哈萨克斯坦/loc, 中亚/loc]
+//[中亚/loc, 习近平/per, 上合组织/org, 二十国集团/org, 哈萨克斯坦/loc, 比什凯克/loc, 圣彼得堡/loc, 2013年9月/time]
 ```
 
-封装了 NLP 分词器感知机模型，由[结构化感知机序列标注框架](https://github.com/hankcs/HanLP/wiki/结构化感知机标注框架)支撑，识别出文本中的时间、地名、人名、机构名：人名 `per`、地名 `loc`、机构名 `org`、时间 `time`。
+封装了感知机和CRF模型，由[结构化感知机序列标注框架](https://github.com/hankcs/HanLP/wiki/结构化感知机标注框架)支撑，识别出文本中的时间、地名、人名、机构名：人名 `per`、地名 `loc`、机构名 `org`、时间 `time`。
 
 ### 4. 依存句法分析
 
