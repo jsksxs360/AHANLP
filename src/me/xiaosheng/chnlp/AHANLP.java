@@ -79,6 +79,18 @@ public class AHANLP {
     }
     
     /**
+     * 分词断句
+     * @param segType 分词器类型（Standard 或 NLP）
+     * @param shortest 是否断句为最细的子句（将逗号、分号也视作分隔符）
+     * @param content 文本
+     * @param filterStopWord 滤掉停用词
+     * @return 句子列表，每个句子由一个单词列表组成
+     */
+    public static List<List<Term>> seg2sentence(String segType, boolean shortest, String content, boolean filterStopWord) {
+        return Segment.seg2sentence(segType, shortest, content, filterStopWord);
+    }
+    
+    /**
      * 获得词语列表
      * @param termList 分词结果
      * @return 词语列表
@@ -164,8 +176,27 @@ public class AHANLP {
      * @param num 关键词数量
      * @return 关键词列表
      */
-    public static List<String> getKeywordList(String segType, String document, int num) {
+    public static List<String> extractKeyword(String segType, String document, int num) {
     	return TextRankKeyword.getKeywordList(segType, document, num);
+    }
+    
+    /**
+     * 获取所有词语的rank值
+     * @param document 文档
+     * @return 词语和对应的rank值
+     */
+    public static Map<String, Float> calWordRanks(String document) {
+        return TextRankKeyword.getWordRanks(document);
+    }
+    
+    /**
+     * 获取所有词语的rank值
+     * @param segType 分词器类型，Standard或NLP
+     * @param document 文档
+     * @return 词语和对应的rank值
+     */
+    public static Map<String, Float> calWordRanks(String segType, String document) {
+        return TextRankKeyword.getWordRanks(segType, document);
     }
     
     /**
@@ -179,6 +210,59 @@ public class AHANLP {
     }
     
     /**
+     * 提取关键句
+     * @param segType 分词器类型（Standard 或 NLP）
+     * @param document 文档
+     * @param num 句子数目
+     * @return 关键句列表
+     */
+    public static List<String> extractKeySentence(String segType, String document, int num) {
+        return TextRankSentence.getTopSentenceList(segType, document, num);
+    }
+    
+    /**
+     * 提取关键句
+     * @param segType 分词器类型（Standard 或 NLP）
+     * @param document 文档
+     * @param num 句子数目
+     * @param splitReg 句子切分符号(正则表达式)
+     * @return 关键句列表
+     */
+    public static List<String> extractKeySentence(String segType, String document, int num, String splitReg) {
+        return TextRankSentence.getTopSentenceList(segType, document, num, splitReg);
+    }
+    
+    /**
+     * 获取所有句子的rank值
+     * @param document 文档
+     * @return 句子的rank值
+     */
+    public static Map<String, Float> calSentenceRanks(String document) {
+        return TextRankSentence.getSentenceRanks(document);
+    }
+    
+    /**
+     * 获取所有句子的rank值
+     * @param segType 分词器类型（Standard 或 NLP）
+     * @param document 文档
+     * @return 句子的rank值
+     */
+    public static Map<String, Float> calSentenceRanks(String segType, String document) {
+        return TextRankSentence.getSentenceRanks(segType, document);
+    }
+    
+    /**
+     * 获取所有句子的rank值
+     * @param segType 分词器类型（Standard 或 NLP）
+     * @param document 文档
+     * @param splitReg 句子切分符号(正则表达式)
+     * @return 句子的rank值
+     */
+    public static Map<String, Float> calSentenceRanks(String segType, String document, String splitReg) {
+        return TextRankSentence.getSentenceRanks(segType, document, splitReg);
+    }
+    
+    /**
      * 提取摘要
      * @param document 文档
      * @param maxLength 最大长度
@@ -186,6 +270,29 @@ public class AHANLP {
      */
     public static String extractSummary(String document, int maxLength) {
         return TextRankSentence.getSummary(document, maxLength);
+    }
+    
+    /**
+     * 提取摘要
+     * @param segType 分词器类型（Standard 或 NLP）
+     * @param document 文档
+     * @param max_length 最大长度
+     * @return 摘要
+     */
+    public static String extractSummary(String segType, String document, int maxLength) {
+        return TextRankSentence.getSummary(segType, document, maxLength);
+    }
+    
+    /**
+     * 提取摘要
+     * @param segType 分词器类型（Standard 或 NLP）
+     * @param document 文档
+     * @param maxLength 最大长度
+     * @param splitReg 句子切分符号(正则表达式)
+     * @return 摘要
+     */
+    public static String extractSummary(String segType, String document, int maxLength, String splitReg) {
+        return TextRankSentence.getSummary(segType, document, maxLength, splitReg);
     }
     
     /**
@@ -294,12 +401,31 @@ public class AHANLP {
     }
     
     /**
+     * 依存句法分析
+     * @param segResult 分词结果
+     * @param englishTag 使用英语标签
+     * @return CONLL格式分析结果
+     */
+    public static CoNLLSentence DependencyParse(List<Term> segResult, boolean englishTag) {
+        return DependencyParser.parse(segResult, englishTag);
+    }
+    
+    /**
      * 获得词语依存路径
-     * @param segResult
+     * @param sentence 句子
      * @return 依存路径列表
      */
     public static List<List<Term>> getWordPathsInDST(String sentence) {
         return DependencyParser.getWordPaths(sentence);
+    }
+    
+    /**
+     * 获得词语依存路径
+     * @param segResult 分词结果
+     * @return 依存路径列表
+     */
+    public static List<List<Term>> getWordPathsInDST(List<Term> segResult) {
+        return DependencyParser.getWordPaths(segResult);
     }
     
     /**
@@ -312,6 +438,15 @@ public class AHANLP {
     }
     
     /**
+     * 获取词语的深度
+     * @param segResult 分词结果
+     * @return 词语在句法树中的深度
+     */
+    public static Map<String, Integer> getWordsDepthInDST(List<Term> segResult) {
+        return DependencyParser.getWordsDepth(segResult);
+    }
+    
+    /**
      * 获取依存句法树上层词语
      * @param sentence 句子
      * @param maxDepth 句法树最大深度 
@@ -319,6 +454,16 @@ public class AHANLP {
      */
     public static List<String> getTopWordsInDST(String sentence, int maxDepth) {
         return DependencyParser.getTopWords(sentence, maxDepth);
+    }
+    
+    /**
+     * 获取上层词语
+     * @param segResult 分词结果
+     * @param maxDepth 句法树最大深度 
+     * @return 词语
+     */
+    public static List<String> getTopWordsInDST(List<Term> segResult, int maxDepth) {
+        return DependencyParser.getTopWords(segResult, maxDepth);
     }
     
     /**

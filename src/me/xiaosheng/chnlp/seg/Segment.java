@@ -15,6 +15,26 @@ import com.hankcs.hanlp.utility.SentencesUtil;
  * @author Xusheng
  */
 public class Segment {
+    
+    /**
+     * 分词
+     * @param segType 分词器类型（Standard 或 NLP）
+     * @param content 文本
+     * @param filterStopWord 滤掉停用词
+     * @return 分词结果
+     */
+    public static List<Term> segment(String segType, String content, boolean filterStopWord) {
+        List<Term> results = null;
+        if ("Standard".equals(segType) || "标准分词".equals(segType)) {
+            results = StandardSegment(content, filterStopWord);
+        } else if ("NLP".equals(segType) || "NLP分词".equals(segType)) {
+            results = NLPSegment(content, filterStopWord);
+        } else {
+            throw new IllegalArgumentException(String.format("非法参数 segType == %s", segType));
+        }
+        return results;
+    }
+    
     /**
      * 标准分词<br>
      * HMM-Bigram<br>

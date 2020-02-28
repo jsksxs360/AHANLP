@@ -325,7 +325,7 @@ public class TextRankSentence {
     /**
      * 提取摘要
      * @param document 文档
-     * @param max_length 最大长度
+     * @param maxLength 最大长度
      * @return 摘要
      */
     public static String getSummary(String document, int maxLength) {
@@ -336,7 +336,7 @@ public class TextRankSentence {
      * 提取摘要
      * @param segType 分词器类型（Standard 或 NLP）
      * @param document 文档
-     * @param max_length 最大长度
+     * @param maxLength 最大长度
      * @return 摘要
      */
     public static String getSummary(String segType, String document, int maxLength) {
@@ -347,7 +347,7 @@ public class TextRankSentence {
      * 提取摘要
      * @param segType 分词器类型（Standard 或 NLP）
      * @param document 文档
-     * @param max_length 最大长度
+     * @param maxLength 最大长度
      * @param splitReg 句子切分符号(正则表达式)
      * @return 摘要
      */
@@ -370,7 +370,7 @@ public class TextRankSentence {
     /**
      * 提取摘要
      * @param sentenceList 句子列表
-     * @param max_length 最大长度
+     * @param maxLength 最大长度
      * @return 摘要
      */
     public static String getSummary(List<String> sentenceList, int maxLength) {
@@ -381,7 +381,7 @@ public class TextRankSentence {
      * 提取摘要
      * @param segType 分词器类型（Standard 或 NLP）
      * @param sentenceList 句子列表
-     * @param max_length 最大长度
+     * @param maxLength 最大长度
      * @return 摘要
      */
     public static String getSummary(String segType, List<String> sentenceList, int maxLength) {
