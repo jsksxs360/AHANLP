@@ -28,7 +28,7 @@
 AHANLP 沿用 HanLP 的数据组织结构，代码和数据分离，用户可以根据自己的需要选择相应的数据包下载：
 
 - 基础数据包 [AHANLP_base](https://github.com/jsksxs360/AHANLP/releases) 包含**分词类**和**句法分析类**功能，下载解压后，将 `dictionary` 目录和 `model` 目录存放到项目的 `data/` 目录下。
-- 如果需要使用到**句子摘要**和 **Word2Vec** 的相关功能，请额外下载 [word2vec 模型](w2v.markdown)，将解压出的模型文件存放到项目的 `data/model/` 目录下。
+- 如果需要使用到**句子摘要**和 **Word2Vec** 的相关功能，请额外下载 [word2vec 模型](github/w2v.md)，将解压出的模型文件存放到项目的 `data/model/` 目录下。
 - 如果需要使用到 **LDA 主题预测**功能，请额外下载 [AHANLP_LDA_model](https://pan.baidu.com/s/1nvNpZIh)，将解压出的 `SogouCS_LDA.model` 文件存放到项目的 `data/model/` 目录下。如果你需要运行 LDADemo.java 进行测试，还需要下载 [SogouCA_mini](https://pan.baidu.com/s/1nvujNEL)，将解压出的 `mini` 文件夹存放到项目的 `data/` 目录下。
 - 如果需要使用 **WordCloud 绘制词云**服务，需要 Python 环境，并且安装 [wordcloud](http://www.lfd.uci.edu/~gohlke/pythonlibs/#wordcloud) 包（下载后使用 `python -m pip install xxx.whl` 安装）。然后下载 [word_cloud](https://pan.baidu.com/s/1zhwZH5D5aO7gGHag1G76wQ) (提取码 9jb6)，将解压出的 `word_cloud` 文件夹放到项目根目录下。
 
@@ -72,7 +72,7 @@ System.out.println(nlpSegResult);
 
 **标准分词 (StandardSegment)** 封装了 HMM-Bigram 模型，使用最短路方法分词（最短路求解采用 Viterbi 算法），兼顾了效率和效果。**NLP分词 (NLPSegment)** 封装了感知机模型，由[结构化感知机序列标注框架](https://github.com/hankcs/HanLP/wiki/结构化感知机标注框架)支撑，会同时执行词性标注和命名实体识别，准确率更高，适合生产环境使用。
 
-分词默认的返回结果包含词语和词性，可以分别通过 `AHANLP.getWordList(stdSegResult)` 和 `AHANLP.getNatureList(stdSegResult)` 来获取词语或词性列表。词性标注请参见[《HanLP 词性标注集》](hanlp_pos.markdown)。
+分词默认的返回结果包含词语和词性，可以分别通过 `AHANLP.getWordList(stdSegResult)` 和 `AHANLP.getNatureList(stdSegResult)` 来获取词语或词性列表。词性标注请参见[《HanLP 词性标注集》](github/hanlp_pos.md)。
 
 如果需要自定义词性过滤，可以使用 `me.xiaosheng.chnlp.seg.POSFilter` 类，它还实现了过滤标点、保留实词等常用方法。
 
@@ -174,7 +174,7 @@ System.out.println(words);
 CoNLLSentence enDeps = AHANLP.DependencyParse(sentence, true);
 ```
 
-关于依存标签的详细说明，可以参见[《依存标签》](dep_tag.markdown)。
+关于依存标签的详细说明，可以参见[《依存标签》](github/dep_tag.md)。
 
 ### 5. TextRank 摘取关键词
 
@@ -239,7 +239,7 @@ s1 | s3 : 0.3648093
 */
 ```
 
-**wordSimilarity** 和 **sentenceSimilarity** 分别是计算词语和句子相似度的函数，计算过程都使用到了 Word2Vec 模型预训练好的词向量，使用前需要下载 [word2vec 模型](w2v.markdown)，然后将解压出的模型文件存放到项目的 `data/model/` 目录下。词语相似度直接通过计算词向量余弦值得到，句子相似度求取方式可以参见 [Word2Vec/issues1](https://github.com/jsksxs360/Word2Vec/issues/1)。如果想自己训练 Word2Vec 模型，可以参考[训练 Google 版模型](https://github.com/jsksxs360/Word2Vec#user-content-2-训练-google-版模型)。
+**wordSimilarity** 和 **sentenceSimilarity** 分别是计算词语和句子相似度的函数，计算过程都使用到了 Word2Vec 模型预训练好的词向量，使用前需要下载 [word2vec 模型](github/w2v.md)，然后将解压出的模型文件存放到项目的 `data/model/` 目录下。词语相似度直接通过计算词向量余弦值得到，句子相似度求取方式可以参见 [Word2Vec/issues1](https://github.com/jsksxs360/Word2Vec/issues/1)。如果想自己训练 Word2Vec 模型，可以参考[训练 Google 版模型](https://github.com/jsksxs360/Word2Vec#user-content-2-训练-google-版模型)。
 
 注：**sentenceSimilarity** 默认使用标准分词对句子进行分词，并过滤停用词。
 
@@ -298,7 +298,7 @@ try {
 
 **WordCloud** 使用一个词语列表创建 WordCloud 对象，然后调用 `createImage` 方法创建词云图片，并且将图片的保存地址作为参数传入。词云按照词频来绘制每个词语的大小，词频越高，词语越大；颜色及位置随机生成。
 
-![test](wordcloud.png)
+![test](github/wordcloud.png)
 
 默认生成图片尺寸为 500x400，背景色为白色。也可以自定义图片的背景色和图片尺寸
 
