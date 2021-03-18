@@ -29,7 +29,7 @@ AHANLP 沿用 HanLP 的数据组织结构，代码和数据分离，用户可以
 
 - 基础数据包 [AHANLP_base](https://github.com/jsksxs360/AHANLP/releases) 包含**分词类**和**句法分析类**功能，下载解压后，将 `dictionary` 目录和 `model` 目录存放到项目的 `data/` 目录下。
 - 如果需要使用到**句子摘要**和 **Word2Vec** 的相关功能，请额外下载 [word2vec 模型](github/w2v.md)，将解压出的模型文件存放到项目的 `data/model/` 目录下。
-- 如果需要使用到 **LDA 主题预测**功能，请额外下载 [AHANLP_LDA_model](https://pan.baidu.com/s/1nvNpZIh)，将解压出的 `SogouCS_LDA.model` 文件存放到项目的 `data/model/` 目录下。如果你需要运行 LDADemo.java 进行测试，还需要下载 [SogouCA_mini](https://pan.baidu.com/s/1nvujNEL)，将解压出的 `mini` 文件夹存放到项目的 `data/` 目录下。
+- 如果需要使用到 **LDA 主题预测**功能，请额外下载 [AHANLP_LDA_model](https://pan.baidu.com/s/1nvNpZIh)，将解压出的 `SogouCS_LDA.model` 文件存放到项目的 `data/model/` 目录下。如果你需要运行 LDADemo.java 进行测试，还需要下载 [SogouCA_mini](https://github.com/jsksxs360/AHANLP/raw/master/SogouCA_mini.zip)，将解压出的 `mini` 文件夹存放到项目的 `data/` 目录下。
 - 如果需要使用 **WordCloud 绘制词云**服务，需要 Python 环境，并且安装 [wordcloud](http://www.lfd.uci.edu/~gohlke/pythonlibs/#wordcloud) 包（下载后使用 `python -m pip install xxx.whl` 安装）。然后下载 [word_cloud](https://pan.baidu.com/s/1zhwZH5D5aO7gGHag1G76wQ) (提取码 9jb6)，将解压出的 `word_cloud` 文件夹放到项目根目录下。
 
 AHANLP 项目中的各项参数均读取自配置文件（不建议用户修改），下面仅作简单说明。
