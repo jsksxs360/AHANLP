@@ -8,6 +8,7 @@ import java.util.Set;
 import com.ansj.vec.domain.WordEntry;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLSentence;
+import com.hankcs.hanlp.mining.phrase.IPhraseExtractor;
 import com.hankcs.hanlp.seg.common.Term;
 
 import me.xiaosheng.chnlp.distance.Word2VecSimi;
@@ -15,6 +16,7 @@ import me.xiaosheng.chnlp.lda.HanLDA;
 import me.xiaosheng.chnlp.parser.DependencyParser;
 import me.xiaosheng.chnlp.seg.NERTerm;
 import me.xiaosheng.chnlp.seg.Segment;
+import me.xiaosheng.chnlp.summary.MutualInformationEntropyPhraseExtractor;
 import me.xiaosheng.chnlp.summary.TextRankKeyword;
 import me.xiaosheng.chnlp.summary.TextRankSentence;
 
@@ -198,6 +200,29 @@ public class AHANLP {
     public static Map<String, Float> calWordRanks(String segType, String document) {
         return TextRankKeyword.getWordRanks(segType, document);
     }
+    
+//    /**
+//     * 提取关键短语
+//     * @param document 文档
+//     * @param num 关键短语数量
+//     * @return 关键短语列表
+//     */
+//    public static List<String> extractKeyPhrase(String document, int num) {
+//    	IPhraseExtractor extractor = new MutualInformationEntropyPhraseExtractor("Standard");
+//        return extractor.extractPhrase(document, num);
+//    }
+//    
+//    /**
+//     * 提取关键短语
+//     * @param segType 分词器类型，Standard或NLP
+//     * @param document 文档
+//     * @param num 关键短语数量
+//     * @return 关键短语列表
+//     */
+//    public static List<String> extractKeyPhrase(String segType, String document, int num) {
+//    	IPhraseExtractor extractor = new MutualInformationEntropyPhraseExtractor(segType);
+//        return extractor.extractPhrase(document, num);
+//    }
     
     /**
      * 提取关键句
