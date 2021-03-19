@@ -1,5 +1,5 @@
 # AHANLP
-啊哈自然语言处理包，集成了 [**HanLP**](https://github.com/hankcs/HanLP)、[**Word2Vec**](https://github.com/jsksxs360/Word2Vec) 等项目，提供高质量的中文自然语言处理服务。
+啊哈自然语言处理包，集成了 [**HanLP**](https://github.com/hankcs/HanLP/tree/1.x)、[**Word2Vec**](https://github.com/jsksxs360/Word2Vec) 等项目，提供高质量的中文自然语言处理服务。
 
 **AHANLP** 目前提供的功能有：
 
