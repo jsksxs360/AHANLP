@@ -1,4 +1,5 @@
-# AHANLP
+![AHANLP](https://socialify.git.ci/jsksxs360/AHANLP/image?font=Source%20Code%20Pro&language=1&pattern=Circuit%20Board&theme=Dark)
+
 啊哈自然语言处理包，集成了 [**HanLP**](https://github.com/hankcs/HanLP/tree/1.x)、[**Word2Vec**](https://github.com/jsksxs360/Word2Vec) 等项目，提供高质量的中文自然语言处理服务。
 
 **AHANLP** 目前提供的功能有：
