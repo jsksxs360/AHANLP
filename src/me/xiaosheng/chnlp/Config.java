@@ -37,6 +37,23 @@ public class Config {
     }
     
     /**
+     * SRL模型路径
+     * 
+     * @return
+     */
+    public static String srlTaggerModelPath() {
+        return props.getProperty("srlTaggerModel");
+    }
+    
+    public static String srlParserModelPath() {
+        return props.getProperty("srlParserModel");
+    }
+    
+    public static String srlModelPath() {
+        return props.getProperty("srlModel");
+    }
+    
+    /**
      * word cloud文件目录
      * 
      * @return
