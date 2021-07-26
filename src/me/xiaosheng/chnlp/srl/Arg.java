@@ -6,45 +6,77 @@ package me.xiaosheng.chnlp.srl;
  */
 public class Arg implements Comparable<Arg> {
 	
-	private String span;   // 论元文本片段
-	private int offset;    // 论元在句子中的偏移位置
-	private String label;  // 论元的SRL标签
+	private int senOffset;    // 句子在全文中的偏移量
+	private String span;      // 论元文本
+	private int localOffset;  // 句内偏移量
+	private String label;     // SRL标签
 	
 	/**
 	 * 论元
-	 * @param argSpan 论元文本片段
-	 * @param offset 论元在句子中的偏移位置
-	 * @param label 论元的SRL标签
+	 * @param argSpan 论元文本
+	 * @param localOffset 句内偏移量
+	 * @param label SRL标签
 	 */
-	public Arg(String argSpan, int offset, String label) {
+	public Arg(String argSpan, int localOffset, String label) {
+		this.senOffset = 0;
 		this.span = argSpan;
-		this.offset = offset;
+		this.localOffset = localOffset;
 		this.label = label;
 	}
 	
 	/**
-	 * @return 论元文本片段
+	 * 设置句子在全文中的偏移量
+	 * @param senOffset
+	 */
+	public void setSenOffset(int senOffset) {
+		this.senOffset = senOffset;
+	}
+	
+	/**
+	 * @return 论元文本
 	 */
 	public String getSpan() {
 		return this.span;
 	}
 	
 	/**
-	 * @return 论元在句子中的偏移位置
+	 * @return 句内偏移量
 	 */
-	public int getOffset() {
-		return this.offset;
+	public int getLocalOffset() {
+		return this.localOffset;
 	}
 	
 	/**
-	 * @return 论元在句子中的位置，[start, end]。sen[start, end+1]=span
+	 * @return 句内索, [start, end]
+	 * , sentence[start, end+1]=argument
 	 */
-	public int[] getIdx() {
-		return new int[] {this.offset, this.offset + this.span.length() - 1 };
+	public int[] getLocalIdxs() {
+		return new int[] {
+			this.localOffset, //start index
+			this.localOffset + this.span.length() - 1 //end index
+		};
 	}
 	
 	/**
-	 * @return 论元的SRL标签
+	 * @return 全文偏移量
+	 */
+	public int getGlobalOffset() {
+		return this.senOffset + this.localOffset;
+	}
+	
+	/**
+	 * @return 全文索引, [start, end]
+	 * , context[start, end+1]=argument
+	 */
+	public int[] getGlobalIdxs() {
+		return new int[] {
+			this.senOffset + this.localOffset, //start index
+			this.senOffset + this.localOffset + this.span.length() - 1 //end index
+		};
+	}
+	
+	/**
+	 * @return SRL标签
 	 */
 	public String getLabel() {
 		return this.label;
@@ -52,9 +84,9 @@ public class Arg implements Comparable<Arg> {
 	
 	@Override
 	public int compareTo(Arg o) {
-		if (this.offset < o.getOffset())
+		if (this.getGlobalOffset() < o.getGlobalOffset())
 			return -1;
-		else if (this.offset > o.getOffset())
+		else if (this.getGlobalOffset() > o.getGlobalOffset())
 			return 1;
 		else
 			return 0;
