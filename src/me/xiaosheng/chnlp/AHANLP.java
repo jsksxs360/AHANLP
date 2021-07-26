@@ -8,7 +8,6 @@ import java.util.Set;
 import com.ansj.vec.domain.WordEntry;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLSentence;
-import com.hankcs.hanlp.mining.phrase.IPhraseExtractor;
 import com.hankcs.hanlp.seg.common.Term;
 
 import me.xiaosheng.chnlp.distance.Word2VecSimi;
@@ -16,7 +15,8 @@ import me.xiaosheng.chnlp.lda.HanLDA;
 import me.xiaosheng.chnlp.parser.DependencyParser;
 import me.xiaosheng.chnlp.seg.NERTerm;
 import me.xiaosheng.chnlp.seg.Segment;
-import me.xiaosheng.chnlp.summary.MutualInformationEntropyPhraseExtractor;
+import me.xiaosheng.chnlp.srl.SRLParser;
+import me.xiaosheng.chnlp.srl.SRLPredicate;
 import me.xiaosheng.chnlp.summary.TextRankKeyword;
 import me.xiaosheng.chnlp.summary.TextRankSentence;
 
@@ -489,6 +489,24 @@ public class AHANLP {
      */
     public static List<String> getTopWordsInDST(List<Term> segResult, int maxDepth) {
         return DependencyParser.getTopWords(segResult, maxDepth);
+    }
+    
+    /**
+     * 语义角色标注
+     * @param sentence 句子
+     * @return 谓词列表
+     */
+    public static List<SRLPredicate> SRL(String sentence) {
+    	return SRLParser.parseOneSentence(sentence);
+    }
+    
+    /**
+     * 语义角色标注
+     * @param content 长文本（可以包含多个句子）
+     * @return 谓词列表
+     */
+    public static List<SRLPredicate> SRLParseContent(String content) {
+    	return SRLParser.parseContent(content);
     }
     
     /**

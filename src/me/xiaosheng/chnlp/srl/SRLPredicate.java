@@ -111,7 +111,7 @@ public class SRLPredicate {
 	
 	/**
 	 * @return 谓词的全文索引, [start, end]
-	 * , context[start, end]=predicate
+	 * , content[start, end]=predicate
 	 */
 	public int[] getGlobalIdxs() {
 		return new int[] {

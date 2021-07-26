@@ -66,7 +66,7 @@ public class Arg implements Comparable<Arg> {
 	
 	/**
 	 * @return 全文索引, [start, end]
-	 * , context[start, end+1]=argument
+	 * , content[start, end+1]=argument
 	 */
 	public int[] getGlobalIdxs() {
 		return new int[] {
