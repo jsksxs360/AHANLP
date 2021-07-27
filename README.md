@@ -42,9 +42,9 @@ AHANLP 项目中的各项参数均读取自配置文件（不建议用户修改�
 ```
 word2vecModel = data/model/wiki_chinese_word2vec(Google).model
 hanLDAModel = data/model/SogouCS_LDA.model
-srlTaggerModel=data/model/srl/CoNLL2009-ST-Chinese-ALL.anna-3.3.postagger.model
-srlParserModel=data/model/srl/CoNLL2009-ST-Chinese-ALL.anna-3.3.parser.model
-srlModel=data/model/srl/CoNLL2009-ST-Chinese-ALL.anna-3.3.srl-4.1.srl.model
+srlTaggerModel = data/model/srl/CoNLL2009-ST-Chinese-ALL.anna-3.3.postagger.model
+srlParserModel = data/model/srl/CoNLL2009-ST-Chinese-ALL.anna-3.3.parser.model
+srlModel = data/model/srl/CoNLL2009-ST-Chinese-ALL.anna-3.3.srl-4.1.srl.model
 wordCloudPath = word_cloud/ 
 pythonCMD = python
 ```
@@ -55,13 +55,15 @@ HanLP 配置文件为 `hanlp.properties`，只需要在第一行设置 data 目�
 root=./
 ```
 
-语义角色标注模块的内存占用较高，如果要使用该功能，请将 JVM 的最大内存占用设置为 4GB。
+注：语义角色标注模块的内存占用较高，如果要使用该功能，请将 JVM 的最大内存占用设置为 4GB。
 
-## 调用方法
+## 调用方法及文档
 
 **AHANLP** 几乎所有的功能都可以通过工具类 `AHANLP` 快捷调用。并且推荐用户始终通过工具类 AHANLP 调用，这样将来 AHANLP 升级后，用户无需修改调用代码。
 
-所有 Demo 位于 [test.demo](https://github.com/jsksxs360/AHANLP/tree/master/src/test/demo) 下，比下方简介文档覆盖了更多细节，强烈建议运行一遍，也可以查阅 [**接口文档**](https://github.com/jsksxs360/AHANLP/wiki)。
+所有 Demo 位于 [test.demo](https://github.com/jsksxs360/AHANLP/tree/master/src/test/demo) 下，比下方简介文档覆盖了更多细节，强烈建议运行一遍，也可以查阅:
+
+[**AHANLP 接口文档**](https://github.com/jsksxs360/AHANLP/wiki)。
 
 ### 1. 分词
 
