@@ -29,6 +29,26 @@ public class SRLDemo {
 			}
 			System.out.println();
 		}
+		// 只打印特定论元
+		System.out.println("\n解析句子： " + sentence);
+		for (SRLPredicate p : predicateList) {
+			System.out.println("谓词: " + p.getPredicate());
+			List<Arg> arg0s = p.getArgments("A0"); // 取出施事者
+			if (arg0s.size() > 0) {
+				System.out.print("施事者: ");
+				for (Arg arg : arg0s)
+					System.out.print(arg.getSpan() + "\t");
+				System.out.println();
+			}
+			List<Arg> arg1s = p.getArgments("A1"); // 取出受事者
+			if (arg1s.size() > 0) {
+				System.out.print("受事者: ");
+				for (Arg arg : arg1s)
+					System.out.print(arg.getSpan() + "\t");
+				System.out.println();
+			}
+			System.out.println();
+		}
 		// 解析包含多个句子的长文
 		String content = "全球最大石油生产商沙特阿美（Saudi Aramco）周三（7月21日）证实，公司的一些文件遭泄露。" + 
 						 "此前，一名网络勒索者声称获取了该公司大量数据，并要求其支付5000万美元赎金。";

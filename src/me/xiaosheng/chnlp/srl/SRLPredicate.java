@@ -191,7 +191,7 @@ public class SRLPredicate {
 	public List<Arg> getArgments(String label) {
 		List<Arg> results = new ArrayList<Arg>();
 		for (Arg arg : this.args) {
-			if (arg.getLabel() == label)
+			if (arg.getLabel().equals(label))
 				results.add(arg);
 		}
 		return results;
