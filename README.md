@@ -1,6 +1,6 @@
 ![AHANLP](https://socialify.git.ci/jsksxs360/AHANLP/image?font=Source%20Code%20Pro&language=1&pattern=Circuit%20Board&theme=Dark)
 
-啊哈自然语言处理包，集成了 [**HanLP**](https://github.com/hankcs/HanLP/tree/1.x)、[**Word2Vec**](https://github.com/jsksxs360/Word2Vec) 等项目，提供高质量的中文自然语言处理服务。
+啊哈自然语言处理包，集成了 [**HanLP**](https://github.com/hankcs/HanLP/tree/1.x)、[**Word2Vec**](https://github.com/jsksxs360/Word2Vec)、[**Mate-Tools**](https://code.google.com/archive/p/mate-tools/) 等项目，提供高质量的中文自然语言处理服务。
 
 **AHANLP** 目前提供的功能有：
 
@@ -17,10 +17,11 @@
 - 语义类
   - [Word2Vec 词语相似度](#7-语义距离)
   - [Word2Vec 句子相似度](#7-语义距离)
-  - [LDA 主题预测](#8-lda-主题预测)
+  - [语义角色标注](#8-语义角色标注)
+  - [LDA 主题预测](#9-lda-主题预测)
 - 附加功能
-  - [简繁转换](#9-简繁转换)
-  - [WordCloud 绘制词云](#10-wordcloud-绘制词云)
+  - [简繁转换](#10-简繁转换)
+  - [WordCloud 绘制词云](#11-wordcloud-绘制词云)
 
 ## 下载与配置
 
@@ -30,6 +31,7 @@ AHANLP 沿用 HanLP 的数据组织结构，代码和数据分离，用户可以
 
 - 基础数据包 [AHANLP_base](https://github.com/jsksxs360/AHANLP/releases) 包含**分词类**和**句法分析类**功能，下载解压后，将 `dictionary` 目录和 `model` 目录存放到项目的 `data/` 目录下。
 - 如果需要使用到**句子摘要**和 **Word2Vec** 的相关功能，请额外下载 [word2vec 模型](github/w2v.md)，将解压出的模型文件存放到项目的 `data/model/` 目录下。
+- 如果需要使用到**语义角色标注**功能，请额外下载 [AHANLP_SRL_model](https://pan.baidu.com/s/1S9ynWIfI1-pN_1E5ElJvkQ) (提取码 p6b7)，将解压出的 3 个模型文件存放到项目的 `data/model/srl/` 目录下。
 - 如果需要使用到 **LDA 主题预测**功能，请额外下载 [AHANLP_LDA_model](https://pan.baidu.com/s/1nvNpZIh)，将解压出的 `SogouCS_LDA.model` 文件存放到项目的 `data/model/` 目录下。如果你需要运行 LDADemo.java 进行测试，还需要下载 [SogouCA_mini](https://github.com/jsksxs360/AHANLP/raw/master/SogouCA_mini.zip)，将解压出的 `mini` 文件夹存放到项目的 `data/` 目录下。
 - 如果需要使用 **WordCloud 绘制词云**服务，需要 Python 环境，并且安装 [wordcloud](http://www.lfd.uci.edu/~gohlke/pythonlibs/#wordcloud) 包（下载后使用 `python -m pip install xxx.whl` 安装）。然后下载 [word_cloud](https://pan.baidu.com/s/1zhwZH5D5aO7gGHag1G76wQ) (提取码 9jb6)，将解压出的 `word_cloud` 文件夹放到项目根目录下。
 
@@ -40,6 +42,9 @@ AHANLP 项目中的各项参数均读取自配置文件（不建议用户修改�
 ```
 word2vecModel = data/model/wiki_chinese_word2vec(Google).model
 hanLDAModel = data/model/SogouCS_LDA.model
+srlTaggerModel=data/model/srl/CoNLL2009-ST-Chinese-ALL.anna-3.3.postagger.model
+srlParserModel=data/model/srl/CoNLL2009-ST-Chinese-ALL.anna-3.3.parser.model
+srlModel=data/model/srl/CoNLL2009-ST-Chinese-ALL.anna-3.3.srl-4.1.srl.model
 wordCloudPath = word_cloud/ 
 pythonCMD = python
 ```
@@ -49,6 +54,8 @@ HanLP 配置文件为 `hanlp.properties`，只需要在第一行设置 data 目�
 ```
 root=./
 ```
+
+语义角色标注模块的内存占用较高，如果要使用该功能，请将 JVM 的最大内存占用设置为 4GB。
 
 ## 调用方法
 
@@ -244,7 +251,39 @@ s1 | s3 : 0.3648093
 
 注：**sentenceSimilarity** 默认使用标准分词对句子进行分词，并过滤停用词。
 
-### 8. LDA 主题预测
+### 8. 语义角色标注
+
+```java
+String sentence = "全球最大石油生产商沙特阿美（Saudi Aramco）周三（7月21日）证实，公司的一些文件遭泄露。";
+List<SRLPredicate> predicateList = AHANLP.SRL(sentence);
+for (SRLPredicate p : predicateList) {
+    System.out.print("谓词: " + p.getPredicate());
+    System.out.print("\t\t句内偏移量: " + p.getLocalOffset());
+    System.out.print("\t句内索引： [" + p.getLocalIdxs()[0] + ", " + p.getLocalIdxs()[1] + "]\n");
+    for (Arg arg : p.getArguments()) {
+        System.out.print("\t" + arg.getLabel() + ": " + arg.getSpan());
+        System.out.print("\t\t句内偏移量: " + arg.getLocalOffset());
+        System.out.print("\t句内索引: [" + arg.getLocalIdxs()[0] + ", " + arg.getLocalIdxs()[1] + "]\n");
+    }
+    System.out.println();
+}
+/*
+谓词: 证实		                               句内偏移量: 36     句内索引： [36, 37]
+TMP: 周三（7月21日）                            句内偏移量: 27     句内索引: [27, 35]
+A0: 全球最大石油生产商沙特阿美（Saudi Aramco）     句内偏移量: 0     句内索引: [0, 26]
+A1: 公司的一些文件遭泄露                         句内偏移量: 39     句内索引: [39, 48]
+
+谓词: 遭                                       句内偏移量: 46     句内索引： [46, 46]
+A0: 公司的一些文件                              句内偏移量: 39     句内索引: [39, 45]
+A1: 泄露                                      句内偏移量: 47     句内索引: [47, 48]
+*/
+```
+
+封装了 [Mate-Tools](https://code.google.com/archive/p/mate-tools/) 中的 [SRL 组件](https://aclanthology.org/W09-1206/)（包括[词性识别器](https://aclanthology.org/D12-1133/)和[依存句法分析器](https://aclanthology.org/E12-1009/)），能够识别出文本中的谓词 `predicate` 和对应的论元：施事者 `A0` 、受事者 `A1`、时间 `TMP` 和地点 `LOC`。添加了对长文本的支持 **SRLParseContent(content)** 以及文本偏移量的匹配，可以通过谓词和论元在文本中的位置和偏移量进行定位。
+
+注：每一个谓词对应的某一类别的论元都可能不止一个，例如谓词”攻击“可以对应多个施事者A0（攻击者）。
+
+### 9. LDA 主题预测
 
 ```java
 int topicNum510 = AHANLP.topicInference("data/mini/军事_510.txt");
@@ -265,7 +304,7 @@ int topicNum810 = AHANLP.topicInference("data/model/testLDA.model", "data/mini/�
 System.out.println("军事_810.txt 最可能的主题号为: " + topicNum810);
 ```
 
-### 9. 简繁转换
+### 10. 简繁转换
 
 ```java
 String tc = AHANLP.convertSC2TC("用笔记本电脑写程序");
@@ -280,7 +319,7 @@ System.out.println(sc);
 
 简繁转换是对 HanLP 中 `convertToTraditionalChinese` 和 `convertToSimplifiedChinese` 方法的包装。能够识别简繁分歧词，比如 `打印机=印表機`；以及许多简繁转换工具不能区分的字，例如“以后”、“皇后”中的两个“后”字。
 
-### 10. WordCloud 绘制词云
+### 11. WordCloud 绘制词云
 
 ```java
 String document = "我国第二艘航空母舰下水仪式26日上午在中国船舶重工集团公司大连造船厂举行。" + "中共中央政治局委员、中央军委副主席范长龙出席仪式并致辞。9时许，仪式在雄壮的国歌声中开始。"
@@ -321,5 +360,4 @@ wc.createImage("D:\\test_1000x800_black.png", 1000, 800, true); // 尺寸 1000x8
 - [SharpICTCLAS](http://www.cnblogs.com/zhenyulu/archive/2007/04/18/718383.html)
 - [snownlp](https://github.com/isnowfy/snownlp)
 - [nlp-lang](https://github.com/NLPchina/nlp-lang)
-
 

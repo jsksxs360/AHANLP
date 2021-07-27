@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import com.hankcs.hanlp.seg.common.Term;
-
-import gnu.trove.TDoubleHashingStrategy;
 import me.xiaosheng.chnlp.AHANLP;
 import me.xiaosheng.chnlp.Config;
 import se.lth.cs.srl.CompletePipeline;
@@ -173,13 +170,5 @@ public class SRLParser {
             return new ArrayList<SRLPredicate>();
         }
         return results;
-    }
-    
-    public static void main(String[] args) {
-        String sen = "全球最大石油生产商沙特阿美（SaudiAramco）周三（7月21日）证实，公司的一些文件遭泄露。此前，一名网络勒索者声称获取了该公司大量数据，并要求其支付5000万美元赎金。";
-        List<SRLPredicate> pList = SRLParser.parseContent(sen);
-        for (SRLPredicate predicate : pList) {
-            System.out.print(predicate);
-        }
     }
 }
