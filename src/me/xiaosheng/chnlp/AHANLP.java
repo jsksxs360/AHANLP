@@ -22,7 +22,7 @@ import me.xiaosheng.chnlp.summary.TextRankSentence;
 
 public class AHANLP {
 
-	/**
+    /**
      * 标准分词<br>
      * HMM-Bigram<br>
      * 最短路分词，最短路求解采用Viterbi算法
@@ -77,7 +77,7 @@ public class AHANLP {
      * @return 句子列表，每个句子由一个单词列表组成
      */
     public static List<List<Term>> seg2sentence(String segType, String content, boolean filterStopWord) {
-    	return Segment.seg2sentence(segType, content, filterStopWord);
+        return Segment.seg2sentence(segType, content, filterStopWord);
     }
     
     /**
@@ -137,7 +137,7 @@ public class AHANLP {
      * @return 句子列表，每个句子由一个单词列表组成
      */
     public static List<List<Term>> splitWordInSentences(List<String> sentenceList, boolean filterStopWord) {
-    	return splitWordInSentences("Standard", sentenceList, filterStopWord);
+        return splitWordInSentences("Standard", sentenceList, filterStopWord);
     }
     
     /**
@@ -179,7 +179,7 @@ public class AHANLP {
      * @return 关键词列表
      */
     public static List<String> extractKeyword(String segType, String document, int num) {
-    	return TextRankKeyword.getKeywordList(segType, document, num);
+        return TextRankKeyword.getKeywordList(segType, document, num);
     }
     
     /**
@@ -208,7 +208,7 @@ public class AHANLP {
 //     * @return 关键短语列表
 //     */
 //    public static List<String> extractKeyPhrase(String document, int num) {
-//    	IPhraseExtractor extractor = new MutualInformationEntropyPhraseExtractor("Standard");
+//        IPhraseExtractor extractor = new MutualInformationEntropyPhraseExtractor("Standard");
 //        return extractor.extractPhrase(document, num);
 //    }
 //    
@@ -220,7 +220,7 @@ public class AHANLP {
 //     * @return 关键短语列表
 //     */
 //    public static List<String> extractKeyPhrase(String segType, String document, int num) {
-//    	IPhraseExtractor extractor = new MutualInformationEntropyPhraseExtractor(segType);
+//        IPhraseExtractor extractor = new MutualInformationEntropyPhraseExtractor(segType);
 //        return extractor.extractPhrase(document, num);
 //    }
     
@@ -347,7 +347,7 @@ public class AHANLP {
      * @return 句子相似度
      */
     public static float sentenceSimilarity(List<String> sentence1Words, List<String> sentence2Words) {
-    	return Word2VecSimi.sentenceSimilarity(sentence1Words, sentence2Words);
+        return Word2VecSimi.sentenceSimilarity(sentence1Words, sentence2Words);
     }
     
     /**
@@ -368,7 +368,7 @@ public class AHANLP {
      * @return 句子相似度
      */
     public static float sentenceSimilarity(String segType, String sentence1, String sentence2) {
-    	return Word2VecSimi.sentenceSimilarity(segType, sentence1, sentence2);
+        return Word2VecSimi.sentenceSimilarity(segType, sentence1, sentence2);
     }
     
     /**
@@ -379,7 +379,7 @@ public class AHANLP {
      * @throws IOException
      */
     public static void trainLDAModel(String trainFolderPath, int trainTopicNum, String saveModelFilePath) throws IOException {
-    	HanLDA.train(trainFolderPath, trainTopicNum, saveModelFilePath, true);
+        HanLDA.train(trainFolderPath, trainTopicNum, saveModelFilePath, true);
     }
     
     /**
@@ -497,7 +497,7 @@ public class AHANLP {
      * @return 谓词列表
      */
     public static List<SRLPredicate> SRL(String sentence) {
-    	return SRLParser.parseOneSentence(sentence);
+        return SRLParser.parseOneSentence(sentence);
     }
     
     /**
@@ -506,7 +506,7 @@ public class AHANLP {
      * @return 谓词列表
      */
     public static List<SRLPredicate> SRLParseContent(String content) {
-    	return SRLParser.parseContent(content);
+        return SRLParser.parseContent(content);
     }
     
     /**
