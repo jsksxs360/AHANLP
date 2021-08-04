@@ -122,6 +122,13 @@ public class Segment {
 		return results;
     }
 
+    private static boolean isWhitespace(char[] string) {
+        for (char c : string)
+            if (!Character.isWhitespace(c) && c != '　')
+                return false;
+        return true;
+    }
+    
     /**
      * 获得词语列表
      * @param termList 分词结果
@@ -129,8 +136,12 @@ public class Segment {
      */
     public static List<String> getWordList(List<Term> termList) {
         List<String> wordList = new ArrayList<String>();
-        for (Term term : termList)
+        for (Term term : termList) {
+            String worStr = term.word.trim();
+            if (worStr.isEmpty() || isWhitespace(worStr.toCharArray()))
+                continue;
             wordList.add(term.word);
+        }
         return wordList;
     }
 
@@ -141,8 +152,12 @@ public class Segment {
      */
     public static List<String> getNatureList(List<Term> termList) {
         List<String> NatureList = new ArrayList<String>();
-        for (Term term : termList)
+        for (Term term : termList) {
+            String worStr = term.word.trim();
+            if (worStr.isEmpty() || isWhitespace(worStr.toCharArray()))
+                continue;
             NatureList.add(term.nature.toString());
+        }
         return NatureList;
     }
 
@@ -167,7 +182,7 @@ public class Segment {
         StringBuilder sb = new StringBuilder();
         List<String> sentences = new LinkedList<String>();
         for (int i = 0; i < chars.length; i++) {
-            if (sb.length() == 0 && (Character.isWhitespace(chars[i]) || chars[i] == ' '))
+            if (sb.length() == 0 && (Character.isWhitespace(chars[i]) || chars[i] == ' ' || chars[i] == '　'))
                 continue;
             sb.append(chars[i]);
             switch (chars[i]) {
