@@ -1,4 +1,4 @@
-![AHANLP](https://socialify.git.ci/jsksxs360/AHANLP/image?font=Jost&logo=https%3A%2F%2Fraw.githubusercontent.com%2Fjsksxs360%2FAHANLP%2Fmaster%2Flogo.png&name=1&pattern=Circuit%20Board&theme=Auto)
+![AHANLP](https://socialify.git.ci/jsksxs360/AHANLP/image?description=1&descriptionEditable=Aha%20Chinese%20Natural%20Language%20Processing%20Package&font=Jost&language=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2Fjsksxs360%2FAHANLP%2Fmaster%2Flogo.png&name=1&pattern=Circuit%20Board&theme=Light)
 
 啊哈自然语言处理包，集成了 [**HanLP**](https://github.com/hankcs/HanLP/tree/1.x)、[**Word2Vec**](https://github.com/jsksxs360/Word2Vec)、[**Mate-Tools**](https://code.google.com/archive/p/mate-tools/) 等项目，提供高质量的中文自然语言处理服务。
 
